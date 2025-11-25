@@ -1,5 +1,5 @@
 meson setup build
 meson compile -C build
-meson test -C build -v
+.\build\studiesschedule --help
 
-.\build\rendercsv --help
+meson test -C build -v
