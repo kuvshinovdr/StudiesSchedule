@@ -70,6 +70,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -125,7 +131,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\config.cpp" />
+    <ClCompile Include="..\src\file_to_string.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\string_to_file.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\config.hpp" />
+    <ClInclude Include="..\src\error_fwd.hpp" />
+    <ClInclude Include="..\src\file_operations_fwd.hpp" />
+    <ClInclude Include="..\src\file_to_string.hpp" />
+    <ClInclude Include="..\src\string_operations_fwd.hpp" />
+    <ClInclude Include="..\src\string_to_file.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
