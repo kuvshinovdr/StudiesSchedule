@@ -135,6 +135,16 @@
     <ClCompile Include="..\tests\test_config.cpp" />
     <ClCompile Include="..\tests\test_main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\config.hpp" />
+    <ClInclude Include="..\src\error_fwd.hpp" />
+    <ClInclude Include="..\src\file_operations_fwd.hpp" />
+    <ClInclude Include="..\src\file_to_string.hpp" />
+    <ClInclude Include="..\src\input_data_model.hpp" />
+    <ClInclude Include="..\src\log.hpp" />
+    <ClInclude Include="..\src\string_operations_fwd.hpp" />
+    <ClInclude Include="..\src\string_to_file.hpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\config.cpp" />
     <ClCompile Include="..\src\file_to_string.cpp" />
+    <ClCompile Include="..\src\log.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\string_to_file.cpp" />
   </ItemGroup>
@@ -141,6 +142,8 @@
     <ClInclude Include="..\src\error_fwd.hpp" />
     <ClInclude Include="..\src\file_operations_fwd.hpp" />
     <ClInclude Include="..\src\file_to_string.hpp" />
+    <ClInclude Include="..\src\input_data_model.hpp" />
+    <ClInclude Include="..\src\log.hpp" />
     <ClInclude Include="..\src\string_operations_fwd.hpp" />
     <ClInclude Include="..\src\string_to_file.hpp" />
   </ItemGroup>

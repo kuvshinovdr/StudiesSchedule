@@ -20,7 +20,16 @@ namespace studies_schedule
         String  subjects   { "subjects.csv"s  };
         String  timeslots  { "timeslots.csv"s };
         String  forbidden  { "forbidden.csv"s };
+        
+        String  input      { "./" };
+        String  output     { "./studies_schedule/" };
     };
+
+    [[nodiscard]] auto parseCommandLineParameters(std::span<StringView const> params)
+        -> Config;
+
+    [[nodiscard]] auto parseCommandLineParameters(int argc, char* argv[])
+        -> Config;
 
 }
 
