@@ -21,11 +21,17 @@ namespace studies_schedule
         TimeSlotIndices forbidden   {};
     };
 
+    using Rooms =
+        std::vector<Room>;
+
     struct Group
     {
         String          id          {};
         TimeSlotIndices forbidden   {};
     };
+
+    using Groups =
+        std::vector<Group>;
 
     struct Instructor
     {
@@ -33,17 +39,35 @@ namespace studies_schedule
         TimeSlotIndices forbidden   {};
     };
 
+    using Instructors =
+        std::vector<Instructor>;
+
     struct TimeSlot
     {
         String dayOfWeek; // день недели
         String daySlot;   // номер в течении дня
     };
 
+    using TimeSlots =
+        std::vector<TimeSlot>;
+
     struct Subject
     {
         String title;
         String groupId;
         String instructorName;
+    };
+
+    using Subjects =
+        std::vector<Subject>;
+
+    struct Task
+    {
+        TimeSlots   timeSlots   {};
+        Rooms       rooms       {};
+        Groups      groups      {};
+        Instructors instructors {};
+        Subjects    subjects    {};
     };
 
 }

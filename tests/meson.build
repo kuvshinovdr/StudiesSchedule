@@ -1,6 +1,7 @@
 # Test sources
 tests = [
-    
+    'test_config.cpp',
+	'test_graph_coloring.cpp'
 ]
 
 test_sources = files(tests)

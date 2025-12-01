@@ -1,6 +1,11 @@
 # Sources
 sources = [
-    
+    'config.cpp',
+	'file_to_string.cpp',
+	'graph_coloring.cpp',
+	'input.cpp',
+	'log.cpp',
+	'string_to_file.cpp'
 ]
 
 source_files = files(sources)
