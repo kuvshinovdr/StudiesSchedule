@@ -1,7 +1,7 @@
-#include <print>
+﻿#include "log.hpp"
 
 int main(int argc, char* argv[])
 {
-    std::println("StudiesSchedule started...");
+    studies_schedule::log::debug("{}", "Hello world!");
     return 0;
 }

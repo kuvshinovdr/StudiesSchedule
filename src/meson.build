@@ -1,6 +1,7 @@
 # Sources
 sources = [
     'config.cpp',
+	'csv.cpp',
 	'file_to_string.cpp',
 	'graph_coloring.cpp',
 	'input.cpp',
