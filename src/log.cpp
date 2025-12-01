@@ -8,8 +8,7 @@ namespace studies_schedule::log
     [[nodiscard]] static auto loggingPrefix(MessageType type)
         -> StringView
     {
-        switch (type)
-        {
+        switch (type) {
         using enum MessageType;
         case Fatal:
             return "FATAL "sv;
@@ -29,6 +28,10 @@ namespace studies_schedule::log
     void put(MessageType type, String const& msg)
     {
         std::clog << loggingPrefix(type) << msg << '\n';
+        
+        if (type == MessageType::Fatal) {
+            std::exit(-1);
+        }
     }
 
 }

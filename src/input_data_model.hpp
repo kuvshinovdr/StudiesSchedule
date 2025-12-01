@@ -3,17 +3,10 @@
 #ifndef STUDIES_SCHEDULE_INPUT_DATA_MODEL_HPP
 #define STUDIES_SCHEDULE_INPUT_DATA_MODEL_HPP
 
-#include "string_operations_fwd.hpp"
-#include <vector>
+#include "time_slots.hpp"
 
 namespace studies_schedule
 {
-
-    using TimeSlotIndex =
-        std::ptrdiff_t;
-
-    using TimeSlotIndices =
-        std::vector<TimeSlotIndex>;
 
     struct Room
     {
@@ -41,15 +34,6 @@ namespace studies_schedule
 
     using Instructors =
         std::vector<Instructor>;
-
-    struct TimeSlot
-    {
-        String dayOfWeek; // день недели
-        String daySlot;   // номер в течении дня
-    };
-
-    using TimeSlots =
-        std::vector<TimeSlot>;
 
     struct Subject
     {

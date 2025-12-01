@@ -23,10 +23,9 @@ namespace studies_schedule::log
     void put(MessageType, String const&);
 
     template <typename... Args>
-    [[noreturn]] void fatal(std::format_string<Args...> fmt, Args&&... args)
+    void fatal(std::format_string<Args...> fmt, Args&&... args)
     {
         put(MessageType::Fatal, std::format(fmt, std::forward<Args>(args)...));
-        std::exit(-1);
     }
 
     template <typename... Args>
