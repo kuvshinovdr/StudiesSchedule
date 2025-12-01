@@ -2,7 +2,8 @@
 tests = [
     'test_config.cpp',
 	'test_csv.cpp',
-	'test_graph_coloring.cpp'
+	'test_graph_coloring.cpp',
+	'test_prepare_schedule.cpp'
 ]
 
 test_sources = files(tests)

@@ -6,6 +6,8 @@ sources = [
 	'graph_coloring.cpp',
 	'input.cpp',
 	'log.cpp',
+	'output.cpp',
+	'prepare_schedule.cpp',
 	'string_to_file.cpp'
 ]
 

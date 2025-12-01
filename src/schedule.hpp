@@ -1,7 +1,7 @@
-﻿/// @file  output_data_model.hpp
-/// @brief Структуры данных, описывающие результаты составления расписания.
-#ifndef STUDIES_SCHEDULE_OUTPUT_DATA_MODEL_HPP
-#define STUDIES_SCHEDULE_OUTPUT_DATA_MODEL_HPP
+﻿/// @file  schedule.hpp
+/// @brief Расписание, представленное в виде трёх таблиц.
+#ifndef STUDIES_SCHEDULE_SCHEDULE_HPP
+#define STUDIES_SCHEDULE_SCHEDULE_HPP
 
 #include "time_slots.hpp"
 
@@ -38,14 +38,6 @@ namespace studies_schedule
     using RoomSchedule =
         std::vector<RoomScheduleRow>;
 
-    struct Schedule
-    {
-        TimeSlots           timeSlots           {};
-        GroupSchedule       groupSchedule       {};
-        InstructorSchedule  instructorSchedule  {};
-        RoomSchedule        roomSchedule        {};
-    };
-
 }
 
-#endif//STUDIES_SCHEDULE_OUTPUT_DATA_MODEL_HPP
+#endif//STUDIES_SCHEDULE_SCHEDULE_HPP
