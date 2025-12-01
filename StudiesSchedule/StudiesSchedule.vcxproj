@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\config.cpp" />
+    <ClCompile Include="..\src\csv.cpp" />
     <ClCompile Include="..\src\file_to_string.cpp" />
     <ClCompile Include="..\src\graph_coloring.cpp" />
     <ClCompile Include="..\src\input.cpp" />
@@ -141,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\config.hpp" />
+    <ClInclude Include="..\src\csv.hpp" />
     <ClInclude Include="..\src\error_fwd.hpp" />
     <ClInclude Include="..\src\file_operations_fwd.hpp" />
     <ClInclude Include="..\src\file_to_string.hpp" />

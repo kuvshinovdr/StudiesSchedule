@@ -132,8 +132,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\config.cpp" />
+    <ClCompile Include="..\src\csv.cpp" />
     <ClCompile Include="..\src\graph_coloring.cpp" />
+    <ClCompile Include="..\tests\log_test_implementation.cpp" />
     <ClCompile Include="..\tests\test_config.cpp" />
+    <ClCompile Include="..\tests\test_csv.cpp" />
     <ClCompile Include="..\tests\test_graph_coloring.cpp" />
     <ClCompile Include="..\tests\test_main.cpp" />
   </ItemGroup>
