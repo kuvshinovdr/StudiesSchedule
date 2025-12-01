@@ -20,6 +20,11 @@ TEST_SUITE("graph coloring")
     {
         // TODO
     }
+    
+    TEST_CASE("randomColoring")
+    {
+        // TODO
+    }
 
     TEST_CASE("computeVertexColoring")
     {

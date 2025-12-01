@@ -22,6 +22,13 @@ namespace studies_schedule
         return false;
     }
 
+    auto randomColoring(VertexIndex vertices, Color colors)
+        -> Coloring
+    {
+        // TODO
+        return {};
+    }
+
     auto computeVertexColoring(
             AdjacencyList   const& graph,
             ForbiddenColors const& forbiddenColors,

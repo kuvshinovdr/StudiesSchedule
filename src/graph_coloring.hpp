@@ -55,6 +55,12 @@ namespace studies_schedule
     /// Любые две вершины, которые являются соседями друг друга, окрашены в разные цвета.
     [[nodiscard]] bool isProperVertexColoring(Coloring const& coloring, AdjacencyList const& graph);
 
+    /// @brief Создать случайную раскраску размера vertices в заданное число цветов colors.
+    ///
+    /// Заполнить случайно с равномерным распределением значениями [0, colors-1].
+    [[nodiscard]] auto randomColoring(VertexIndex vertices, Color colors)
+        -> Coloring;
+
     /// @brief                  Вычислить правильную вершинную раскраску графа.
     /// @param graph            входной граф, заданный списками соседей
     /// @param forbiddenColors  списки цветов, запрещённых для каждой вершины (индекс массива == индекс вершины)
