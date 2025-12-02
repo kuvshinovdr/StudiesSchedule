@@ -140,6 +140,7 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\output.cpp" />
     <ClCompile Include="..\src\prepare_schedule.cpp" />
+    <ClCompile Include="..\src\separate_assignments.cpp" />
     <ClCompile Include="..\src\string_to_file.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +154,9 @@
     <ClInclude Include="..\src\input_data_model.hpp" />
     <ClInclude Include="..\src\log.hpp" />
     <ClInclude Include="..\src\output.hpp" />
+    <ClInclude Include="..\src\prepare_schedule.hpp" />
     <ClInclude Include="..\src\schedule.hpp" />
+    <ClInclude Include="..\src\separate_assignments.hpp" />
     <ClInclude Include="..\src\string_operations_fwd.hpp" />
     <ClInclude Include="..\src\string_to_file.hpp" />
     <ClInclude Include="..\src\time_slots.hpp" />

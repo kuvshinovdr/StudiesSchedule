@@ -135,22 +135,33 @@
     <ClCompile Include="..\src\csv.cpp" />
     <ClCompile Include="..\src\graph_coloring.cpp" />
     <ClCompile Include="..\src\prepare_schedule.cpp" />
+    <ClCompile Include="..\src\separate_assignments.cpp" />
     <ClCompile Include="..\tests\log_test_implementation.cpp" />
     <ClCompile Include="..\tests\test_config.cpp" />
     <ClCompile Include="..\tests\test_csv.cpp" />
     <ClCompile Include="..\tests\test_graph_coloring.cpp" />
     <ClCompile Include="..\tests\test_main.cpp" />
     <ClCompile Include="..\tests\test_prepare_schedule.cpp" />
+    <ClCompile Include="..\tests\test_separate_assignments.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\assignments.hpp" />
     <ClInclude Include="..\src\config.hpp" />
+    <ClInclude Include="..\src\csv.hpp" />
     <ClInclude Include="..\src\error_fwd.hpp" />
     <ClInclude Include="..\src\file_operations_fwd.hpp" />
     <ClInclude Include="..\src\file_to_string.hpp" />
+    <ClInclude Include="..\src\graph_coloring.hpp" />
+    <ClInclude Include="..\src\input.hpp" />
     <ClInclude Include="..\src\input_data_model.hpp" />
     <ClInclude Include="..\src\log.hpp" />
+    <ClInclude Include="..\src\output.hpp" />
+    <ClInclude Include="..\src\prepare_schedule.hpp" />
+    <ClInclude Include="..\src\schedule.hpp" />
+    <ClInclude Include="..\src\separate_assignments.hpp" />
     <ClInclude Include="..\src\string_operations_fwd.hpp" />
     <ClInclude Include="..\src\string_to_file.hpp" />
+    <ClInclude Include="..\src\time_slots.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
