@@ -153,12 +153,11 @@
     <ClInclude Include="..\src\input_data_model.hpp" />
     <ClInclude Include="..\src\log.hpp" />
     <ClInclude Include="..\src\output.hpp" />
-    <ClInclude Include="..\src\prepared_schedule.hpp" />
-    <ClInclude Include="..\src\prepare_schedule.hpp" />
+    <ClInclude Include="..\src\schedule.hpp" />
     <ClInclude Include="..\src\string_operations_fwd.hpp" />
     <ClInclude Include="..\src\string_to_file.hpp" />
     <ClInclude Include="..\src\time_slots.hpp" />
-    <ClInclude Include="..\src\unprepared_schedule.hpp" />
+    <ClInclude Include="..\src\assignments.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

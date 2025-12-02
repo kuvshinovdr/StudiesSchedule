@@ -86,13 +86,10 @@
     <ClInclude Include="..\src\time_slots.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\prepared_schedule.hpp">
+    <ClInclude Include="..\src\schedule.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\unprepared_schedule.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\prepare_schedule.hpp">
+    <ClInclude Include="..\src\assignments.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
