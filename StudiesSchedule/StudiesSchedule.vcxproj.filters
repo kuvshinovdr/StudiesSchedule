@@ -71,7 +71,7 @@
     <ClInclude Include="..\src\log.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\input_data_model.hpp">
+    <ClInclude Include="..\src\task.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\src\input.hpp">
