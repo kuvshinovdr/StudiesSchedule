@@ -3,7 +3,7 @@
 #ifndef STUDIES_SCHEDULE_INPUT_HPP
 #define STUDIES_SCHEDULE_INPUT_HPP
 
-#include "input_data_model.hpp"
+#include "task.hpp"
 #include "config.hpp"
 
 namespace studies_schedule
