@@ -1,5 +1,5 @@
 ﻿/// @file  test_string_operations.cpp
-#include <string_operations_fwd.hpp>
+#include <string_operations.hpp>
 #include <doctest.h>
 
 using namespace studies_schedule;
@@ -23,6 +23,9 @@ TEST_SUITE("string operations")
 
     TEST_CASE("quoted")
     {
+        CHECK(quoted('"') == "\"\"\"\""sv);
+        CHECK(quoted('!') == "\"!\""sv);
+
         CHECK(quoted("hello") == "\"hello\""sv);
         CHECK(quoted(" abc "sv) == "\" abc \""sv);
         CHECK(quoted("\"") == "\"\"\"\""sv);
@@ -30,11 +33,20 @@ TEST_SUITE("string operations")
         CHECK(quoted("a\"b\"c"sv) == "\"a\"\"b\"\"c\""sv);
     }
 
-    TEST_CASE("delimiterConcat")
+    TEST_CASE("delimitedConcat")
     {
-        CHECK(delimiterConcat(',', "nope") == "nope"sv);
-        CHECK(delimiterConcat(',', "alpha"sv, "beta"s) == "alpha,beta"sv);
-        CHECK(delimiterConcat("; "sv, "1", "2", "3", "4"sv) == "1; 2; 3; 4"sv);
+        CHECK(delimitedConcat(',', "nope") == "nope"sv);
+        CHECK(delimitedConcat(',', "alpha"sv, "beta"s) == "alpha,beta"sv);
+        CHECK(delimitedConcat("; "sv, "1", "2", "3", "4"sv) == "1; 2; 3; 4"sv);
+    }
+
+    TEST_CASE("delimitedQuotedConcat")
+    {
+        CHECK(delimitedQuotedConcat(',', "nope") == "\"nope\""sv);
+        CHECK(delimitedQuotedConcat(',', "alpha"sv, "beta"s) == "\"alpha\",\"beta\""sv);
+        CHECK(delimitedQuotedConcat("; "sv, "1", "2", "3", "4"sv) == "\"1\"; \"2\"; \"3\"; \"4\""sv);
+        CHECK(delimitedQuotedConcat(" -- "sv, '"', "\"hekk\""sv, "aaa"sv, ""sv) == 
+            "\"\"\"\" -- \"\"\"hekk\"\"\" -- \"aaa\" -- \"\""sv);
     }
 
 }

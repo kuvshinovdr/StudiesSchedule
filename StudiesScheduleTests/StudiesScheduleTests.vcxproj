@@ -161,6 +161,7 @@
     <ClInclude Include="..\src\prepare_schedule.hpp" />
     <ClInclude Include="..\src\schedule.hpp" />
     <ClInclude Include="..\src\separate_assignments.hpp" />
+    <ClInclude Include="..\src\string_operations.hpp" />
     <ClInclude Include="..\src\string_operations_fwd.hpp" />
     <ClInclude Include="..\src\string_to_file.hpp" />
     <ClInclude Include="..\src\task.hpp" />

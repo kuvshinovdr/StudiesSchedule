@@ -113,5 +113,8 @@
     <ClInclude Include="..\src\time_slots.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\string_operations.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

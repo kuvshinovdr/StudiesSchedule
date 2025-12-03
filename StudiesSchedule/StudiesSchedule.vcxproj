@@ -151,6 +151,7 @@
     <ClInclude Include="..\src\file_to_string.hpp" />
     <ClInclude Include="..\src\graph_coloring.hpp" />
     <ClInclude Include="..\src\input.hpp" />
+    <ClInclude Include="..\src\string_operations.hpp" />
     <ClInclude Include="..\src\task.hpp" />
     <ClInclude Include="..\src\log.hpp" />
     <ClInclude Include="..\src\output.hpp" />
