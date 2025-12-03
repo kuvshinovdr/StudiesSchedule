@@ -13,6 +13,8 @@ namespace studies_schedule
         String room;
         String subject;
         String instructor;
+
+        [[nodiscard]] constexpr auto operator<=>(GroupScheduleRow const&) const noexcept = default;
     };
 
     using GroupSchedule =
@@ -23,6 +25,8 @@ namespace studies_schedule
         String room;
         String subject;
         String group;
+
+        [[nodiscard]] constexpr auto operator<=>(InstructorScheduleRow const&) const noexcept = default;
     };
 
     using InstructorSchedule =
@@ -33,6 +37,8 @@ namespace studies_schedule
         String subject;
         String group;
         String instructor;
+
+        [[nodiscard]] constexpr auto operator<=>(RoomScheduleRow const&) const noexcept = default;
     };
 
     using RoomSchedule =

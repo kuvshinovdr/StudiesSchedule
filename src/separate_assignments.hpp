@@ -13,6 +13,8 @@ namespace studies_schedule
     {
         Assignments     assigned    {};
         Assignments     unassigned  {};
+
+        [[nodiscard]] constexpr auto operator<=>(SeparateAssignments const&) const noexcept = default;
     };
 
     /// @brief                    Разделить назначения на группы "назначенных" и "не назначенных".

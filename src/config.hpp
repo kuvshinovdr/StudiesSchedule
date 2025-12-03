@@ -25,6 +25,8 @@ namespace studies_schedule
         
         String  input      { "./" };
         String  output     { "./studies_schedule/" };
+
+        [[nodiscard]] constexpr auto operator<=>(Config const&) const noexcept = default;
     };
 
     [[nodiscard]] auto parseCommandLineParameters(std::span<StringView const> args)

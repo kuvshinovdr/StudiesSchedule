@@ -23,6 +23,8 @@ namespace studies_schedule
         GroupIndex      group       {-1};
         InstructorIndex instructor  {-1};
         SubjectIndex    subject     {-1};
+
+        [[nodiscard]] constexpr auto operator<=>(Assignment const&) const noexcept = default;
     };
 
     using Assignments =

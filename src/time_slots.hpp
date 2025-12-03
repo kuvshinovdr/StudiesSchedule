@@ -21,6 +21,8 @@ namespace studies_schedule
     {
         String dayOfWeek; // день недели
         String daySlot;   // номер в течении дня
+
+        [[nodiscard]] constexpr auto operator<=>(TimeSlot const&) const noexcept = default;
     };
 
     using TimeSlots =

@@ -12,6 +12,8 @@ namespace studies_schedule
     {
         String          id          {};
         TimeSlotIndices forbidden   {};
+
+        [[nodiscard]] constexpr auto operator<=>(Room const&) const noexcept = default;
     };
 
     using Rooms =
@@ -21,6 +23,8 @@ namespace studies_schedule
     {
         String          id          {};
         TimeSlotIndices forbidden   {};
+
+        [[nodiscard]] constexpr auto operator<=>(Group const&) const noexcept = default;
     };
 
     using Groups =
@@ -30,6 +34,8 @@ namespace studies_schedule
     {
         String          name        {};
         TimeSlotIndices forbidden   {};
+
+        [[nodiscard]] constexpr auto operator<=>(Instructor const&) const noexcept = default;
     };
 
     using Instructors =
@@ -40,6 +46,8 @@ namespace studies_schedule
         String title            {};
         String groupId          {};
         String instructorName   {};
+
+        [[nodiscard]] constexpr auto operator<=>(Subject const&) const noexcept = default;
     };
 
     using Subjects =
@@ -52,6 +60,8 @@ namespace studies_schedule
         Groups      groups      {};
         Instructors instructors {};
         Subjects    subjects    {};
+
+        [[nodiscard]] constexpr auto operator<=>(Task const&) const noexcept = default;
     };
 
 }
