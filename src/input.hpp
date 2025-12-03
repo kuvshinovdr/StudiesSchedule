@@ -5,15 +5,16 @@
 
 #include "task.hpp"
 #include "config.hpp"
+#include "error_fwd.hpp"
 
 namespace studies_schedule
 {
 
     /// @brief          Прочитать входные данные.
     /// @param config   объект, содержащий пути к входным файлам
-    /// @return         данные постановки задачи
+    /// @return         данные постановки задачи или ошибка
     [[nodiscard]] auto readInput(Config const& config)
-        -> Task;
+        -> Expected<Task>;
 
 }
 
