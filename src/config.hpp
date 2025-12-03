@@ -14,6 +14,8 @@ namespace studies_schedule
         bool    help       { false };
         bool    version    { false };
 
+        int     attempts   { 10 };
+
         String  rooms      { "rooms.csv"s     };
         String  groups     { "groups.csv"s    };
         String  stuff      { "stuff.csv"s     };
@@ -25,7 +27,7 @@ namespace studies_schedule
         String  output     { "./studies_schedule/" };
     };
 
-    [[nodiscard]] auto parseCommandLineParameters(std::span<StringView const> params)
+    [[nodiscard]] auto parseCommandLineParameters(std::span<StringView const> args)
         -> Config;
 
     [[nodiscard]] auto parseCommandLineParameters(int argc, char* argv[])
