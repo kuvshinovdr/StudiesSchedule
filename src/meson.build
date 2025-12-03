@@ -5,7 +5,6 @@ sources = [
 	'file_to_string.cpp',
 	'graph_coloring.cpp',
 	'input.cpp',
-	'log.cpp',
 	'output.cpp',
 	'prepare_schedule.cpp',
 	'string_to_file.cpp'
@@ -17,7 +16,7 @@ inc = include_directories('.')
 
 # Create main executable
 executable('studiesschedule',
-    source_files + files(['main.cpp']),
+    source_files + files(['main.cpp', 'log.cpp']),
 	dependencies:        deps,
     include_directories: inc,
 	link_args:           linkargs,

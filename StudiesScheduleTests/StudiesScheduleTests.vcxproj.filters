@@ -57,6 +57,9 @@
     <ClCompile Include="..\tests\test_output.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="..\tests\test_string_operations.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\assignments.hpp">

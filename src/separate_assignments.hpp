@@ -15,7 +15,7 @@ namespace studies_schedule
         Assignments     unassigned  {};
     };
 
-    /// @brief                    Разделить назначения на группы "назначенных" и "неназначенных".
+    /// @brief                    Разделить назначения на группы "назначенных" и "не назначенных".
     /// @param allAssignments     исходный набор назначений
     /// @param availableTimeSlots доступное число временных слотов
     /// @return                   два набора назначений (поля assigned и unassigned)

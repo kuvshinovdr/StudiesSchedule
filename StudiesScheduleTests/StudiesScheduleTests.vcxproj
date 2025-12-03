@@ -145,6 +145,7 @@
     <ClCompile Include="..\tests\test_output.cpp" />
     <ClCompile Include="..\tests\test_prepare_schedule.cpp" />
     <ClCompile Include="..\tests\test_separate_assignments.cpp" />
+    <ClCompile Include="..\tests\test_string_operations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\assignments.hpp" />

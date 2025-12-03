@@ -26,6 +26,8 @@ namespace studies_schedule
     auto writeAssignments(Assignments const& assignments, Task const& task, String const& filename)
         -> Expected<void>;
 
+
+
 }
 
 #endif//STUDIES_SCHEDULE_OUTPUT_HPP
