@@ -37,9 +37,9 @@ namespace studies_schedule
 
     struct Subject
     {
-        String title;
-        String groupId;
-        String instructorName;
+        String title            {};
+        String groupId          {};
+        String instructorName   {};
     };
 
     using Subjects =

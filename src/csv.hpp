@@ -10,12 +10,19 @@
 namespace studies_schedule
 {
 
+    /// @brief Строка таблицы -- результата чтения CSV.
     using TableRow =
         std::vector<String>;
 
+    /// @brief Таблица -- результат чтения CSV.
     using Table =
         std::vector<TableRow>;
 
+    /// @brief       Выполнить разбор CSV-файла.
+    /// @param input содержимое CSV-файла
+    /// @return      таблица или ошибка
+    /// 
+    /// Дополнительная информация об ошибках записывается в лог, используя функции из log.hpp.
     [[nodiscard]] auto parseCsv(StringView input)
         -> Expected<Table>;
 
