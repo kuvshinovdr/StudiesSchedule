@@ -40,4 +40,11 @@ TEST_SUITE("config")
         CHECK(config.help);
     }
 
+    TEST_CASE("attempts")
+    {
+        auto config { parseCommandLineParameters(std::array{ "--attempts"sv, " 111 "sv }) };
+        
+        CHECK(config.attempts == 111);
+    }
+
 }
