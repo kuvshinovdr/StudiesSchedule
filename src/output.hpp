@@ -26,7 +26,29 @@ namespace studies_schedule
     auto writeAssignments(Assignments const& assignments, Task const& task, String const& filename)
         -> Expected<void>;
 
+    /// @brief          Сформировать и записать CSV-файл с расписанием заданной группы.
+    /// @param schedule расписание (индекс -- временной слот)
+    /// @param task     исходная задача с названиями групп и т.п. данными
+    /// @param filename путь к записываемому файлу
+    /// @return         код ошибки
+    auto writeGroupSchedule(GroupSchedule const& schedule, Task const& task, String const& filename)
+        -> Expected<void>;
 
+    /// @brief          Сформировать и записать CSV-файл с расписанием заданной аудитории.
+    /// @param schedule расписание (индекс -- временной слот)
+    /// @param task     исходная задача с названиями групп и т.п. данными
+    /// @param filename путь к записываемому файлу
+    /// @return         код ошибки
+    auto writeRoomSchedule(RoomSchedule const& schedule, Task const& task, String const& filename)
+        -> Expected<void>;
+
+    /// @brief          Сформировать и записать CSV-файл с расписанием заданного преподавателя.
+    /// @param schedule расписание (индекс -- временной слот)
+    /// @param task     исходная задача с названиями групп и т.п. данными
+    /// @param filename путь к записываемому файлу
+    /// @return         код ошибки
+    auto writeInstructorSchedule(InstructorSchedule const& schedule, Task const& task, String const& filename)
+        -> Expected<void>;
 
 }
 
