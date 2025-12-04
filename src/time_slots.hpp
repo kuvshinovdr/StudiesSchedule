@@ -5,14 +5,14 @@
 
 #include "string_operations_fwd.hpp"
 
-#include <cstddef>
+#include <cstdint>
 #include <vector>
 
 namespace studies_schedule
 {
 
     using TimeSlotIndex =
-        std::ptrdiff_t;
+        std::int32_t;
 
     using TimeSlotIndices =
         std::vector<TimeSlotIndex>;

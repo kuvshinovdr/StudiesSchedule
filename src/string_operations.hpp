@@ -14,7 +14,6 @@ namespace studies_schedule
 {
 
     constexpr auto Quote        { '"' };
-    constexpr auto QuoteQuote   { "\"\""sv };
 
     template <typename T>
     concept StringLike =

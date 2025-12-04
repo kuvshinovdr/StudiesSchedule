@@ -10,9 +10,9 @@
 namespace studies_schedule
 {
 
-    /// @brief          Прочитать входные данные.
-    /// @param config   объект, содержащий пути к входным файлам
-    /// @return         данные постановки задачи или ошибка
+    /// @brief        Прочитать входные данные.
+    /// @param config объект, содержащий пути к входным файлам
+    /// @return       данные постановки задачи или ошибка
     [[nodiscard]] auto readInput(Config const& config)
         -> Expected<Task>;
 

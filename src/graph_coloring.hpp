@@ -3,7 +3,7 @@
 #ifndef STUDIES_SCHEDULE_GRAPH_COLORING_HPP
 #define STUDIES_SCHEDULE_GRAPH_COLORING_HPP
 
-#include <cstddef>
+#include <cstdint>
 #include <vector>
 
 namespace studies_schedule
@@ -11,7 +11,7 @@ namespace studies_schedule
 
     /// @brief Номер вершины или цвета.
     using Index =
-        std::ptrdiff_t;
+        std::int32_t;
 
     /// @brief Цвет задаётся номером с 0 до некоторого максимального (<= количеству вершин в графе).
     using Color =
