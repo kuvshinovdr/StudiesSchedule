@@ -1,6 +1,8 @@
 ﻿/// @file  main.cpp
 #include "log.hpp"
 #include "config.hpp"
+#include "input.hpp"
+#include "output.hpp"
 #include <print>
 #include <exception>
 #include <typeinfo>
