@@ -141,6 +141,7 @@
     <ClCompile Include="..\tests\test_config.cpp" />
     <ClCompile Include="..\tests\test_csv.cpp" />
     <ClCompile Include="..\tests\test_graph_coloring.cpp" />
+    <ClCompile Include="..\tests\test_input.cpp" />
     <ClCompile Include="..\tests\test_main.cpp" />
     <ClCompile Include="..\tests\test_output.cpp" />
     <ClCompile Include="..\tests\test_prepare_schedule.cpp" />
