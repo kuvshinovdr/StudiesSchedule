@@ -3,9 +3,11 @@ tests = [
     'test_config.cpp',
 	'test_csv.cpp',
 	'test_graph_coloring.cpp',
+	'test_input.cpp',
 	'test_output.cpp',
 	'test_prepare_schedule.cpp',
 	'test_separate_assignments.cpp',
+	'test_solve.cpp',
 	'test_string_operations.cpp'
 ]
 

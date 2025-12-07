@@ -1,4 +1,5 @@
-﻿#include <graph_coloring.hpp>
+﻿/// @file  test_graph_coloring.cpp
+#include <graph_coloring.hpp>
 #include <doctest.h>
 
 using namespace studies_schedule;

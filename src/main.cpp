@@ -4,7 +4,7 @@
 #include "input.hpp"
 #include "output.hpp"
 #include <print>
-#include <exception>
+#include <stdexcept>
 #include <typeinfo>
 
 using namespace studies_schedule;
@@ -61,6 +61,14 @@ try
         std::println("{}\n\n{}", Version, Help);
         return 0;
     }
+
+    auto input { readInput(config) };
+    
+    if (!input) {
+        throw std::runtime_error("Failed to parse input files. Exiting.");
+    }
+
+    auto task { std::move(input.value()) };
 
     // TODO
 

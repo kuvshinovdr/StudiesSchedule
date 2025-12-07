@@ -7,6 +7,8 @@ sources = [
 	'input.cpp',
 	'output.cpp',
 	'prepare_schedule.cpp',
+	'separate_assignments.cpp',
+	'solve.cpp',
 	'string_to_file.cpp'
 ]
 
