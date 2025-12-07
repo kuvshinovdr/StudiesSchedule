@@ -35,9 +35,9 @@ namespace studies_schedule
         AdjacencyList   const& graph,
         ForbiddenColors const& forbiddenColors,
         Coloring& vertexColoring
-    ) -> std::vector<std::vector<Index>>
+    ) -> Conflicts
     {
-        std::vector<std::vector<Index>> conflicts;
+        Conflicts conflicts;
         for (Index vertex = 0; vertex < graph.size(); ++vertex)
         {
             std::vector<Index> neighborsColors = {};
@@ -46,15 +46,14 @@ namespace studies_schedule
                 neighborsColors.push_back(vertexColoring[neighbor]);
             }
             Index conflictRank = std::count(neighborsColors.begin(),
-                neighborsColors.end(),
-                vertexColoring[vertex]);
+                                            neighborsColors.end(),
+                                            vertexColoring[vertex]);
             if (conflictRank > 0)
             {
 
                 std::set<Index> neighborsSet(neighborsColors.begin(), neighborsColors.end());
 
                 neighborsSet.insert(forbiddenColors[vertex].begin(), forbiddenColors[vertex].end());
-
                 Index newColor = *neighborsSet.rbegin() + 1;
 
                 for (Index color = 1; color < newColor - 1; ++color)
@@ -71,28 +70,47 @@ namespace studies_schedule
             }
         }
         std::sort(conflicts.begin(), conflicts.end(),
-            [](const std::vector<Index>& a, const std::vector<Index>& b) {
+            [](auto const& a, auto const& b) {
                 return a[0] > b[0];
             });
-        // оставила только сортировку по убыванию количества конфликтов
         return conflicts;
-
     }
 
     auto computeVertexColoring(
-            AdjacencyList   const& graph,
-            ForbiddenColors const& forbiddenColors,
-            Coloring&              vertexColoring
-        ) -> Color
+        AdjacencyList   const& graph,
+        ForbiddenColors const& forbiddenColors,
+        Coloring& vertexColoring
+    ) -> Color
     {
-        auto maxColor = Color{-1};
-        
-        // if (ForbiddenColors.size() != graph.size())
-        
-                 
+        Color maxColor = 0;
+        int i = 0;
 
+        while (i <= 100)
+        {
+            i++;
+            auto conflicts = listConflicts(graph, forbiddenColors, vertexColoring);
+            if (conflicts.empty())
+            {
+                for (auto c : vertexColoring)
+                    maxColor = maxColor > c ? maxColor : c;
+                return maxColor != 0 ? maxColor : graph.size();
+            }
 
+            std::set<Index> closed{};
+            for (auto v : conflicts)
+            {
+                auto u = v[2];
+                if (closed.find(u) != closed.end())
+                {
+                    continue;
+                }
+                vertexColoring[u] = v[1];
+                for (auto ng : graph[u])
+                {
+                    closed.insert(ng);
+                }
+            }
+        }
         return maxColor;
     }
-
 }
