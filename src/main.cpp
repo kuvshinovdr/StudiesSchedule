@@ -2,6 +2,9 @@
 #include "log.hpp"
 #include "config.hpp"
 #include "input.hpp"
+#include "solve.hpp"
+#include "separate_assignments.hpp"
+#include "prepare_schedule.hpp"
 #include "output.hpp"
 #include <print>
 #include <stdexcept>
@@ -47,6 +50,13 @@ constexpr auto Help
     ""sv
 };
 
+constexpr auto FileExtension      { ".csv"       };
+constexpr auto AssignedFilename   { "assigned"   };
+constexpr auto UnassignedFilename { "unassigned" };
+constexpr auto GroupFilename      { "group"      };
+constexpr auto RoomFilename       { "room"       };
+constexpr auto StuffFilename      { "stuff"      };
+
 int main(int argc, char* argv[])
 try
 {
@@ -62,16 +72,53 @@ try
         return 0;
     }
 
-    auto input { readInput(config) };
+    auto input  { readInput(config) };
     
     if (!input) {
         throw std::runtime_error("Failed to parse input files. Exiting.");
     }
 
-    auto task { std::move(input.value()) };
+    auto task   { std::move(input.value()) };
 
-    // TODO
+    auto assigned   { Assignments{} };
+    auto unassigned { Assignments{} };
 
+    for (int attempt = 0; attempt < config.attempts; ++attempt) {
+        auto assignments { solve(task) };
+        
+        if (!simpleSanityCheck(task, assignments)) {
+            log::error("attempt {} assignments sanity check failed (internal error)", attempt);
+            continue;
+        }
+
+        if (auto unassignedSubjects = findUnassignedSubjects(task, assignments); !unassignedSubjects.empty()) {
+            log::error("attempt {}: {} subjects have found their place in our schedule", attempt, unassignedSubjects.size());
+            
+            for (auto& subject : unassignedSubjects) {
+                log::info(" -- {} {} {}", subject.title, subject.groupId, subject.instructorName);
+            }
+
+            continue;
+        }
+
+        // TODO: оценка качества
+        auto separate { separateAssignments(assignments, static_cast<TimeSlotIndex>(task.timeSlots.size())) };
+        
+        if (separate.unassigned.size() < unassigned.size()) {
+            assigned    = std::move(separate.assigned);
+            unassigned  = std::move(separate.unassigned);
+        }
+    }
+
+    auto groupSchedule      { makeGroupSchedule(assigned, task)      };
+    auto instructorSchedule { makeInstructorSchedule(assigned, task) };
+    auto roomSchedule       { makeRoomSchedule(assigned, task)       };
+    
+    writeAssignments(assigned,   task, std::format("{}{}{}", config.output, AssignedFilename,   FileExtension));
+    writeAssignments(unassigned, task, std::format("{}{}{}", config.output, UnassignedFilename, FileExtension));
+    
+
+    
     return 0;
 }
 catch (std::exception const& e)

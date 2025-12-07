@@ -10,16 +10,16 @@
 namespace studies_schedule
 {
 
-    /// @brief  Построить расписание групп по набору назначений.
-    [[nodiscard]] auto makeGroupSchedule(Assignments const&, Task const&)
+    /// @brief  Построить расписание группы с заданным индексом по набору назначений.
+    [[nodiscard]] auto makeGroupSchedule(GroupIndex groupIndex, Assignments const&, Task const&)
         -> GroupSchedule;
 
-    /// @brief  Построить расписание преподавателей по набору назначений.
-    [[nodiscard]] auto makeInstructorSchedule(Assignments const&, Task const&)
+    /// @brief  Построить расписание преподавателя с заданным индексом по набору назначений.
+    [[nodiscard]] auto makeInstructorSchedule(InstructorIndex instructorIndex, Assignments const&, Task const&)
         -> InstructorSchedule;
 
-    /// @brief  Построить расписание аудиторий по набору назначений.
-    [[nodiscard]] auto makeRoomSchedule(Assignments const&, Task const&)
+    /// @brief  Построить расписание аудитории с заданным индексом по набору назначений.
+    [[nodiscard]] auto makeRoomSchedule(RoomIndex roomIndex, Assignments const&, Task const&)
         -> RoomSchedule;
 
 }

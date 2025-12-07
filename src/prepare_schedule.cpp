@@ -4,21 +4,21 @@
 namespace studies_schedule
 {
 
-    auto makeGroupSchedule(Assignments const& assigned, Task const& task)
+    auto makeGroupSchedule(GroupIndex groupIndex, Assignments const& assigned, Task const& task)
         -> GroupSchedule
     {
         // TODO
         return {};
     }
 
-    auto makeInstructorSchedule(Assignments const& assigned, Task const& task)
+    auto makeInstructorSchedule(InstructorIndex instructorIndex, Assignments const& assigned, Task const& task)
         -> InstructorSchedule
     {
         // TODO
         return {};
     }
 
-    auto makeRoomSchedule(Assignments const& assigned, Task const& task)
+    auto makeRoomSchedule(RoomIndex roomIndex, Assignments const& assigned, Task const& task)
         -> RoomSchedule
     {
         // TODO
