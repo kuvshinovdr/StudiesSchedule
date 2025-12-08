@@ -6,6 +6,9 @@
 #include "separate_assignments.hpp"
 #include "prepare_schedule.hpp"
 #include "output.hpp"
+#include "string_operations.hpp"
+
+#include <format>
 #include <print>
 #include <stdexcept>
 #include <typeinfo>
@@ -50,16 +53,24 @@ constexpr auto Help
     ""sv
 };
 
-constexpr auto FileExtension      { ".csv"       };
-constexpr auto AssignedFilename   { "assigned"   };
-constexpr auto UnassignedFilename { "unassigned" };
-constexpr auto GroupFilename      { "group"      };
-constexpr auto RoomFilename       { "room"       };
-constexpr auto StuffFilename      { "stuff"      };
+constexpr auto FileExtension        { ".csv"       };
+constexpr auto AssignedFilename     { "assigned"   };
+constexpr auto UnassignedFilename   { "unassigned" };
+constexpr auto GroupFilename        { "group_"     };
+constexpr auto RoomFilename         { "room_"      };
+constexpr auto StuffFilename        { "stuff_"     };
+
+constexpr auto ErrorOnAssigned       { "on writing assigned assignments"sv   };
+constexpr auto ErrorOnUnassigned     { "on writing unassigned assignments"sv };
+constexpr auto ErrorOnWritingGroups  { "on writing group schedule"sv         };
+constexpr auto ErrorOnWritingRooms   { "on writing room schedule"sv          };
+constexpr auto ErrorOnWritingStuff   { "on writing stuff schedule"sv         };
 
 int main(int argc, char* argv[])
 try
 {
+    log::debug("parsing command line parameters");
+
     auto config { parseCommandLineParameters(argc, argv) };
     
     if (config.version) {
@@ -72,11 +83,15 @@ try
         return 0;
     }
 
+    log::debug("reading input files");
+
     auto input  { readInput(config) };
     
     if (!input) {
         throw std::runtime_error("Failed to parse input files. Exiting.");
     }
+
+    log::debug("solving the task");
 
     auto task   { std::move(input.value()) };
 
@@ -84,6 +99,8 @@ try
     auto unassigned { Assignments{} };
 
     for (int attempt = 0; attempt < config.attempts; ++attempt) {
+        log::debug("attempt {}", attempt);
+
         auto assignments { solve(task) };
         
         if (!simpleSanityCheck(task, assignments)) {
@@ -110,14 +127,69 @@ try
         }
     }
 
-    auto groupSchedule      { makeGroupSchedule(assigned, task)      };
-    auto instructorSchedule { makeInstructorSchedule(assigned, task) };
-    auto roomSchedule       { makeRoomSchedule(assigned, task)       };
-    
-    writeAssignments(assigned,   task, std::format("{}{}{}", config.output, AssignedFilename,   FileExtension));
-    writeAssignments(unassigned, task, std::format("{}{}{}", config.output, UnassignedFilename, FileExtension));
-    
+    log::debug("writing assignments");
 
+    if (auto expected = writeAssignments(assigned, task, concat(config.output, AssignedFilename, FileExtension));
+        !expected)
+    {
+        log::error(expected.error(), ErrorOnAssigned);
+    }
+
+    if (auto expected = writeAssignments(unassigned, task, concat(config.output, UnassignedFilename, FileExtension));
+        !expected)
+    {
+        log::error(expected.error(), ErrorOnUnassigned);
+    }
+
+    log::debug("writing group schedules");
+
+    for (GroupIndex group = 0; group < static_cast<GroupIndex>(task.groups.size()); ++group) {
+        auto groupSchedule { makeGroupSchedule(group, assigned, task) };
+        
+        auto expected 
+        {
+            writeGroupSchedule(groupSchedule, task, 
+                concat(config.output, GroupFilename, task.groups[group].id, FileExtension))
+        };
+
+        if (!expected) {
+            log::error(expected.error(), ErrorOnWritingGroups);
+        }
+    }
+
+    log::debug("writing instructor schedules");
+
+    for (InstructorIndex instructor = 0; instructor < static_cast<InstructorIndex>(task.instructors.size()); ++instructor) {
+        auto instructorSchedule { makeInstructorSchedule(instructor, assigned, task) };
+        
+        auto expected
+        {
+            writeInstructorSchedule(instructorSchedule, task,
+                concat(config.output, StuffFilename, task.instructors[instructor].name, FileExtension))
+        };
+
+        if (!expected) {
+            log::error(expected.error(), ErrorOnWritingStuff);
+        }
+    }
+    
+    log::debug("writing room schedules");
+    
+    for (RoomIndex room = 0; room < static_cast<RoomIndex>(task.rooms.size()); ++room) {
+        auto roomSchedule { makeRoomSchedule(room, assigned, task) };
+        
+        auto expected
+        {
+            writeRoomSchedule(roomSchedule, task,
+                concat(config.output, RoomFilename, task.rooms[room].id, FileExtension))
+        };
+
+        if (!expected) {
+            log::error(expected.error(), ErrorOnWritingRooms);
+        }
+    }   
+    
+    log::debug("done");
     
     return 0;
 }
