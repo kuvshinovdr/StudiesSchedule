@@ -8,16 +8,18 @@
 #include "output.hpp"
 #include "string_operations.hpp"
 
-#include <format>
-#include <print>
+#include <cstdlib>
 #include <stdexcept>
 #include <typeinfo>
+#include <format>
+#include <print>
+#include <ranges>
 
 using namespace studies_schedule;
 
 constexpr auto Version
 {
-    "StudiesSchedule v.1.0"sv
+    "StudiesSchedule v.1.0 built on " __DATE__ " " __TIME__ ""sv
 };
 
 constexpr auto Help
@@ -53,23 +55,33 @@ constexpr auto Help
     ""sv
 };
 
-constexpr auto FileExtension        { ".csv"       };
-constexpr auto AssignedFilename     { "assigned"   };
-constexpr auto UnassignedFilename   { "unassigned" };
-constexpr auto GroupFilename        { "group_"     };
-constexpr auto RoomFilename         { "room_"      };
-constexpr auto StuffFilename        { "stuff_"     };
+constexpr auto AssignedFnFmt    { "{}assigned.csv"sv    };
+constexpr auto UnassignedFnFmt  { "{}unassigned.csv"sv  };
+constexpr auto GroupFnFmt       { "{}group_{}.csv"sv    };
+constexpr auto RoomFnFmt        { "{}room_{}.csv"sv     };
+constexpr auto StuffFnFmt       { "{}stuff_{}.csv"sv    };
 
+constexpr auto ErrorOnInput          { "on parsing input files"sv };
 constexpr auto ErrorOnAssigned       { "on writing assigned assignments"sv   };
 constexpr auto ErrorOnUnassigned     { "on writing unassigned assignments"sv };
 constexpr auto ErrorOnWritingGroups  { "on writing group schedule"sv         };
 constexpr auto ErrorOnWritingRooms   { "on writing room schedule"sv          };
 constexpr auto ErrorOnWritingStuff   { "on writing stuff schedule"sv         };
 
+constexpr auto DebugParsingCli         { "parsing command line parameters"sv };
+constexpr auto DebugReadingInput       { "reading input files"sv             };
+constexpr auto DebugSolvingTask        { "solving the task"sv                };
+constexpr auto DebugWritingAssignments { "writing assignments"sv             };
+constexpr auto DebugWritingGroups      { "writing group schedules"sv         };
+constexpr auto DebugWritingRooms       { "writing room schedules"sv          };
+constexpr auto DebugWritingStuff       { "writing stuff schedules"sv         };
+constexpr auto DebugDone               { "done"sv                            };
+
 int main(int argc, char* argv[])
 try
 {
-    log::debug("parsing command line parameters");
+    //===================================================================================
+    log::debug(DebugParsingCli);
 
     auto config { parseCommandLineParameters(argc, argv) };
     
@@ -83,22 +95,24 @@ try
         return 0;
     }
 
-    log::debug("reading input files");
+    //===================================================================================
+    log::debug(DebugReadingInput);
 
     auto input  { readInput(config) };
     
     if (!input) {
-        throw std::runtime_error("Failed to parse input files. Exiting.");
+        log::fatal(input.error(), ErrorOnInput);
     }
 
-    log::debug("solving the task");
+    //===================================================================================
+    log::debug(DebugSolvingTask);
 
     auto task   { std::move(input.value()) };
 
     auto assigned   { Assignments{} };
     auto unassigned { Assignments{} };
 
-    for (int attempt = 0; attempt < config.attempts; ++attempt) {
+    for (auto attempt = int(0); attempt < config.attempts; ++attempt) {
         log::debug("attempt {}", attempt);
 
         auto assignments { solve(task) };
@@ -127,70 +141,61 @@ try
         }
     }
 
-    log::debug("writing assignments");
+    //===================================================================================
+    log::debug(DebugWritingAssignments);
 
-    if (auto expected = writeAssignments(assigned, task, concat(config.output, AssignedFilename, FileExtension));
-        !expected)
-    {
+    auto const assignedFn   { std::format(AssignedFnFmt,   StringView{config.output}) };
+    auto const unassignedFn { std::format(UnassignedFnFmt, StringView{config.output}) };
+
+    if (auto expected = writeAssignments(assigned, task, assignedFn); !expected) {
         log::error(expected.error(), ErrorOnAssigned);
     }
 
-    if (auto expected = writeAssignments(unassigned, task, concat(config.output, UnassignedFilename, FileExtension));
-        !expected)
-    {
+    if (auto expected = writeAssignments(unassigned, task, unassignedFn); !expected) {
         log::error(expected.error(), ErrorOnUnassigned);
     }
 
-    log::debug("writing group schedules");
+    //===================================================================================
+    log::debug(DebugWritingGroups);
 
-    for (GroupIndex group = 0; group < static_cast<GroupIndex>(task.groups.size()); ++group) {
-        auto groupSchedule { makeGroupSchedule(group, assigned, task) };
-        
-        auto expected 
-        {
-            writeGroupSchedule(groupSchedule, task, 
-                concat(config.output, GroupFilename, task.groups[group].id, FileExtension))
-        };
+    for (auto&& [i, group]: std::views::enumerate(task.groups)) {
+        auto const schedule { makeGroupSchedule(i, assigned, task)             };
+        auto const filename { std::format(GroupFnFmt, config.output, group.id) };
+        auto const expected { writeGroupSchedule(schedule, task, filename)     };
 
         if (!expected) {
             log::error(expected.error(), ErrorOnWritingGroups);
         }
     }
+    
+    //===================================================================================
+    log::debug(DebugWritingRooms);
+    
+    for (auto&& [i, room]: std::views::enumerate(task.rooms)) {
+        auto const schedule { makeRoomSchedule(i, assigned, task)            };
+        auto const filename { std::format(RoomFnFmt, config.output, room.id) };        
+        auto const expected { writeRoomSchedule(schedule, task, filename)    };
 
-    log::debug("writing instructor schedules");
+        if (!expected) {
+            log::error(expected.error(), ErrorOnWritingRooms);
+        }
+    }
 
-    for (InstructorIndex instructor = 0; instructor < static_cast<InstructorIndex>(task.instructors.size()); ++instructor) {
-        auto instructorSchedule { makeInstructorSchedule(instructor, assigned, task) };
-        
-        auto expected
-        {
-            writeInstructorSchedule(instructorSchedule, task,
-                concat(config.output, StuffFilename, task.instructors[instructor].name, FileExtension))
-        };
+    //===================================================================================
+    log::debug(DebugWritingStuff);
+
+    for (auto&& [i, stuff]: std::views::enumerate(task.instructors)) {
+        auto const schedule { makeInstructorSchedule(i, assigned, task)          };
+        auto const filename { std::format(StuffFnFmt, config.output, stuff.name) };
+        auto const expected { writeInstructorSchedule(schedule, task, filename)  };
 
         if (!expected) {
             log::error(expected.error(), ErrorOnWritingStuff);
         }
     }
     
-    log::debug("writing room schedules");
-    
-    for (RoomIndex room = 0; room < static_cast<RoomIndex>(task.rooms.size()); ++room) {
-        auto roomSchedule { makeRoomSchedule(room, assigned, task) };
-        
-        auto expected
-        {
-            writeRoomSchedule(roomSchedule, task,
-                concat(config.output, RoomFilename, task.rooms[room].id, FileExtension))
-        };
-
-        if (!expected) {
-            log::error(expected.error(), ErrorOnWritingRooms);
-        }
-    }   
-    
-    log::debug("done");
-    
+    //===================================================================================
+    log::debug(DebugDone);
     return 0;
 }
 catch (std::exception const& e)

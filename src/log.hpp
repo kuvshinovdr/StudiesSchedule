@@ -6,7 +6,6 @@
 #include "error_fwd.hpp"
 #include "string_operations_fwd.hpp"
 
-#include <cstdlib>
 #include <format>
 
 namespace studies_schedule::log
