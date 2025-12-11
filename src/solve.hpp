@@ -30,7 +30,16 @@ namespace studies_schedule
     [[nodiscard]] auto findUnassignedSubjects(Task const& task, Assignments const& assignments)
         -> Subjects;
 
-
+    /// @brief                 Сравнить качество двух наборов назначений.
+    /// @param assigned        сравниваемый набор -- функция возвращает true, если он лучше
+    /// @param thanAssigned    с чем сравниваем -- функция возвращает false, если он лучше
+    /// @param accordingToTask исходная постановка задачи
+    /// @return                результат сравнения (true -- надо выбрать assigned)
+    [[nodiscard]] bool isBetter(
+            Assignments const& assigned, 
+            Assignments const& thanAssigned,
+            Task        const& accordingToTask
+        );
 
 }
 

@@ -132,10 +132,16 @@ try
             continue;
         }
 
-        // TODO: оценка качества
         auto separate { separateAssignments(assignments, static_cast<TimeSlotIndex>(task.timeSlots.size())) };
         
-        if (separate.unassigned.size() < unassigned.size()) {
+        auto const newIsBetter
+        {
+            separate.unassigned.size() < unassigned.size() ||
+            (separate.unassigned.size() == unassigned.size() &&
+                isBetter(separate.assigned, assigned, task))
+        };
+
+        if (newIsBetter) {
             assigned    = std::move(separate.assigned);
             unassigned  = std::move(separate.unassigned);
         }

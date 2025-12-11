@@ -17,6 +17,13 @@ TEST_SUITE("solve")
         // TODO
     }
 
-
+    TEST_CASE("isBetter")
+    {
+        auto small { Assignments(3) };
+        auto big   { Assignments(5) };
+        auto task  { Task{} };
+        
+        CHECK(isBetter(big, small, task));
+    }
 
 }

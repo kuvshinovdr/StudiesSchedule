@@ -24,4 +24,13 @@ namespace studies_schedule
         return {};
     }
 
+    bool isBetter(
+            Assignments const& assigned, 
+            Assignments const& thanAssigned,
+            Task        const& accordingToTask
+        )
+    {
+        return assigned.size() > thanAssigned.size(); // заглушка
+    }
+
 }
