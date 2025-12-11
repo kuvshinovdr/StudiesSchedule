@@ -56,7 +56,8 @@ namespace studies_schedule
     /// @param subjectTimeSlots        предыдущий результат раскраски графа предметов (решение задачи 1)
     /// @param subjectsToMove          набор предметов, не вписавшихся в аудитории во временных слотах, назначенных для этих предметов
     /// 
-    /// ...
+    /// Выбираем какие-то из предметов, индексы которых ii записаны в subjectsToMove, 
+    /// добавляем их цвета, заданные subjectTimeSlots[ii], в forbiddenColorsToModify[ii].
     void updateForbiddenColorsForSubjectGraph(
             ForbiddenColors&                 forbiddenColorsToModify,
             Coloring                  const& subjectTimeSlots,

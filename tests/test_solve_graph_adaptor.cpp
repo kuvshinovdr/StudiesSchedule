@@ -7,7 +7,27 @@ using namespace studies_schedule;
 TEST_SUITE("solve_graph_adaptor")
 {
 
-    TEST_CASE("")
+    TEST_CASE("makeSubjectGraph")
+    {
+        // TODO
+    }
+
+    TEST_CASE("makeForbiddenColorsForSubjects")
+    {
+        // TODO
+    }
+
+    TEST_CASE("makeSameColoredGraph")
+    {
+        // TODO
+    }
+
+    TEST_CASE("indicesOfImpossibleColors")
+    {
+        // TODO
+    }
+
+    TEST_CASE("updateForbiddenColorsForSubjectGraph")
     {
         // TODO
     }
