@@ -4,6 +4,7 @@
 #define STUDIES_SCHEDULE_SOLVE_GRAPH_ADAPTOR_HPP
 
 #include "task.hpp"
+#include "assignments.hpp"
 #include "graph_coloring.hpp"
 
 namespace studies_schedule
@@ -63,6 +64,17 @@ namespace studies_schedule
             Coloring                  const& subjectTimeSlots,
             IndicesOfImpossibleColors const& subjectsToMove
         );
+
+    /// @brief Построить набор назначений (полное расписание) на основе назначений временных слотов и аудиторий на предметы.
+    /// @param task                исходная постановка задачи (по строкам в предмете находим индексы групп, преподавателей и аудиторий)
+    /// @param timeSlotsAssignment индекс == номер предмета в task.subjects, значение == номер временного слота, когда проводится предмет
+    /// @param roomAssignment      индекс == номер предмета в task.subjects, значение == номер аудитории, в которой проводится предмет
+    /// @return полное расписание в виде списка назначений
+    [[nodiscard]] auto makeAssignmentsFromColorings(
+            Task     const& task,
+            Coloring const& timeSlotsAssignment,
+            Coloring const& roomAssignment
+        ) -> Assignments;
 
 }
 

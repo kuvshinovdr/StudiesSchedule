@@ -43,4 +43,14 @@ namespace studies_schedule
         // TODO
     }
 
+    auto makeAssignmentsFromColorings(
+            Task     const& task,
+            Coloring const& timeSlotsAssignment,
+            Coloring const& roomAssignment
+        ) -> Assignments
+    {
+        // TODO
+        return {};
+    }
+
 }

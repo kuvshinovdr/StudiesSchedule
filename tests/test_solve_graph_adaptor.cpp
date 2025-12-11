@@ -32,4 +32,9 @@ TEST_SUITE("solve_graph_adaptor")
         // TODO
     }
 
+    TEST_CASE("makeAssignmentsFromColorings")
+    {
+        // TODO
+    }
+
 }
