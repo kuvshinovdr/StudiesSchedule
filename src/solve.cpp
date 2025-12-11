@@ -5,6 +5,8 @@
 namespace studies_schedule
 {
 
+    // Центральная функция приложения -- реализация алгоритма составления расписания на основе функций
+    // из solve_graph_adaptor.hpp и graph_coloring.hpp.
     auto solve(Task const& task)
         -> Assignments
     {

@@ -10,6 +10,8 @@ namespace studies_schedule
 
     struct GroupScheduleRow
     {
+        TimeSlot timeSlot;
+
         String room;
         String subject;
         String instructor;
@@ -22,6 +24,8 @@ namespace studies_schedule
 
     struct InstructorScheduleRow
     {
+        TimeSlot timeSlot;
+
         String room;
         String subject;
         String group;
@@ -34,6 +38,8 @@ namespace studies_schedule
 
     struct RoomScheduleRow
     {
+        TimeSlot timeSlot;
+
         String subject;
         String group;
         String instructor;
