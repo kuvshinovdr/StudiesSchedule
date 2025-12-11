@@ -8,6 +8,7 @@ tests = [
 	'test_prepare_schedule.cpp',
 	'test_separate_assignments.cpp',
 	'test_solve.cpp',
+	'test_solve_graph_adaptor.cpp',
 	'test_string_operations.cpp'
 ]
 

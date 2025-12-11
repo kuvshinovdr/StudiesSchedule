@@ -9,6 +9,7 @@ sources = [
 	'prepare_schedule.cpp',
 	'separate_assignments.cpp',
 	'solve.cpp',
+	'solve_graph_adaptor.cpp',
 	'string_to_file.cpp'
 ]
 

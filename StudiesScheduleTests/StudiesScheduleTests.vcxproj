@@ -138,6 +138,7 @@
     <ClCompile Include="..\src\prepare_schedule.cpp" />
     <ClCompile Include="..\src\separate_assignments.cpp" />
     <ClCompile Include="..\src\solve.cpp" />
+    <ClCompile Include="..\src\solve_graph_adaptor.cpp" />
     <ClCompile Include="..\tests\log_test_implementation.cpp" />
     <ClCompile Include="..\tests\test_config.cpp" />
     <ClCompile Include="..\tests\test_csv.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="..\tests\test_prepare_schedule.cpp" />
     <ClCompile Include="..\tests\test_separate_assignments.cpp" />
     <ClCompile Include="..\tests\test_solve.cpp" />
+    <ClCompile Include="..\tests\test_solve_graph_adaptor.cpp" />
     <ClCompile Include="..\tests\test_string_operations.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +167,7 @@
     <ClInclude Include="..\src\schedule.hpp" />
     <ClInclude Include="..\src\separate_assignments.hpp" />
     <ClInclude Include="..\src\solve.hpp" />
+    <ClInclude Include="..\src\solve_graph_adaptor.hpp" />
     <ClInclude Include="..\src\string_operations.hpp" />
     <ClInclude Include="..\src\string_operations_fwd.hpp" />
     <ClInclude Include="..\src\string_to_file.hpp" />

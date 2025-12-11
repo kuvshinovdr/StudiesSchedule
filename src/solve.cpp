@@ -1,5 +1,6 @@
 ﻿/// @file  solve.cpp
 #include "solve.hpp"
+#include "solve_graph_adaptor.hpp"
 
 namespace studies_schedule
 {

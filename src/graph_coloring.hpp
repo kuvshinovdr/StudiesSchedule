@@ -10,12 +10,12 @@ namespace studies_schedule
 {
 
     /// @brief Номер вершины или цвета.
-    using Index =
+    using GraphIndex =
         std::int32_t;
 
     /// @brief Цвет задаётся номером с 0 до некоторого максимального (<= количеству вершин в графе).
     using Color =
-        Index;
+        GraphIndex;
 
     /// @brief Раскраска (вершин: coloring[i] -- цвет i-й вершины).
     using Coloring =
@@ -23,7 +23,7 @@ namespace studies_schedule
 
     /// @brief Номер вершины с 0 до (количество вершин - 1).
     using VertexIndex =
-        Index;
+        GraphIndex;
 
     /// @brief Список соседей некой вершины: последовательность номеров вершин, являющихся соседними с данной.
     using Adjacency =
