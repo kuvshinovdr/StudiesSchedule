@@ -151,6 +151,7 @@
     <ClCompile Include="..\tests\test_solve.cpp" />
     <ClCompile Include="..\tests\test_solve_graph_adaptor.cpp" />
     <ClCompile Include="..\tests\test_string_operations.cpp" />
+    <ClCompile Include="..\tests\test_task.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\assignments.hpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\src\file_operations_fwd.hpp" />
     <ClInclude Include="..\src\file_to_string.hpp" />
     <ClInclude Include="..\src\graph_coloring.hpp" />
+    <ClInclude Include="..\src\indexed_storage.hpp" />
     <ClInclude Include="..\src\input.hpp" />
     <ClInclude Include="..\src\log.hpp" />
     <ClInclude Include="..\src\output.hpp" />

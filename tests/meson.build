@@ -9,7 +9,8 @@ tests = [
 	'test_separate_assignments.cpp',
 	'test_solve.cpp',
 	'test_solve_graph_adaptor.cpp',
-	'test_string_operations.cpp'
+	'test_string_operations.cpp',
+	'test_task.cpp'
 ]
 
 test_sources = files(tests)

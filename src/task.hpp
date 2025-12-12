@@ -4,9 +4,15 @@
 #define STUDIES_SCHEDULE_TASK_HPP
 
 #include "time_slots.hpp"
+#include "indexed_storage.hpp"
+
+#include <unordered_map>
 
 namespace studies_schedule
 {
+
+    using TaskIndex =
+        TimeSlotIndex;
 
     struct Room
     {
@@ -53,15 +59,123 @@ namespace studies_schedule
     using Subjects =
         std::vector<Subject>;
 
-    struct Task
-    {
-        TimeSlots   timeSlots   {};
-        Rooms       rooms       {};
-        Groups      groups      {};
-        Instructors instructors {};
-        Subjects    subjects    {};
 
-        [[nodiscard]] constexpr auto operator<=>(Task const&) const noexcept = default;
+    [[nodiscard]] inline decltype(auto) id(TimeSlot const& timeSlot) noexcept
+    {
+        return timeSlot;
+    }
+
+    [[nodiscard]] inline auto id(Room const& room) noexcept
+    {
+        return StringView{room.id};
+    }
+
+    [[nodiscard]] inline auto id(Group const& group) noexcept
+    {
+        return StringView{group.id};
+    }
+
+    [[nodiscard]] inline auto id(Instructor const& instructor) noexcept
+    {
+        return StringView{instructor.name};
+    }
+
+    struct TimeSlotHash
+    {
+        [[nodiscard]] auto operator()(TimeSlot const& timeSlot) const noexcept
+        {
+            static auto const hasher { std::hash<String>{} };
+            return hasher(timeSlot.dayOfWeek) ^ hasher(timeSlot.daySlot);
+        }
+    };
+
+    struct StringHash
+    {
+        using is_transparent = void;
+
+        template <typename StringLike>
+        [[nodiscard]] constexpr auto operator()(StringLike&& str) const noexcept
+        {
+            return std::hash<StringView>{}(StringView{str});
+        }
+    };
+
+    namespace impl
+    {
+
+        using TimeSlotToIndex =
+            std::unordered_map<TimeSlot, TaskIndex, TimeSlotHash>;
+
+        using StringToIndex =
+            std::unordered_map<StringView, TaskIndex, StringHash, std::equal_to<>>;
+
+        template <typename Items>
+        struct TaskBaseFor
+        {
+            // Пусто.
+        };
+
+        template <> struct TaskBaseFor<TimeSlots>   { using type = IndexedStorage<TimeSlots,   TimeSlotToIndex>; };
+        template <> struct TaskBaseFor<Rooms>       { using type = IndexedStorage<Rooms,       StringToIndex>;   };
+        template <> struct TaskBaseFor<Groups>      { using type = IndexedStorage<Groups,      StringToIndex>;   };
+        template <> struct TaskBaseFor<Instructors> { using type = IndexedStorage<Instructors, StringToIndex>;   };
+        template <> struct TaskBaseFor<Subjects>    { using type = BasicStorage<Subjects>;                       };
+
+        template <typename Item>
+        struct TaskItemsByItem
+        {
+            // Пусто.
+        };
+
+        template <> struct TaskItemsByItem<TimeSlot>   { using type = TimeSlots;   };
+        template <> struct TaskItemsByItem<Room>       { using type = Rooms;       };
+        template <> struct TaskItemsByItem<Group>      { using type = Groups;      };
+        template <> struct TaskItemsByItem<Instructor> { using type = Instructors; };
+        template <> struct TaskItemsByItem<Subject>    { using type = Subjects;    };
+
+    }
+
+    template <typename Items>
+    using TaskBaseFor =
+        typename impl::TaskBaseFor<Items>::type;
+
+    template <typename Item>
+    using TaskItemsByItem =
+        typename impl::TaskItemsByItem<Item>::type;
+
+    class Task
+        : TaskBaseFor<TimeSlots>
+        , TaskBaseFor<Rooms>
+        , TaskBaseFor<Groups>
+        , TaskBaseFor<Instructors>
+        , TaskBaseFor<Subjects>
+    {
+    public:
+        Task() noexcept = default;
+
+        template <typename Items>
+        [[nodiscard]] auto get() const noexcept
+        {
+            return TaskBaseFor<Items>::get();
+        }
+
+        template <typename Items>
+        void set(Items&& items) noexcept
+        {
+            TaskBaseFor<Items>::set(std::move(items));
+        }
+
+        template <typename Item>
+        [[nodiscard]] decltype(auto) get(TaskIndex index) const noexcept
+        {
+            return TaskBaseFor<TaskItemsByItem<Item>>::operator[](index);
+        }
+
+        template <typename Item, typename Key>
+        [[nodiscard]] auto indexOf(Key const& key) const noexcept
+        {
+            return TaskBaseFor<TaskItemsByItem<Item>>::indexOf(key);
+        }
     };
 
 }
