@@ -12,7 +12,7 @@ namespace studies_schedule
 {
 
     using TimeSlotIndex =
-        std::int32_t;
+        std::int_least32_t;
 
     using TimeSlotIndices =
         std::vector<TimeSlotIndex>;

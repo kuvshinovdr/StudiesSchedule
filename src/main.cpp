@@ -132,7 +132,13 @@ try
             continue;
         }
 
-        auto separate { separateAssignments(assignments, static_cast<TimeSlotIndex>(task.timeSlots.size())) };
+        auto separate 
+        { 
+            separateAssignments(
+                    assignments, 
+                    static_cast<TimeSlotIndex>(task.get<TimeSlots>().size())
+                )
+        };
         
         auto const newIsBetter
         {
@@ -164,7 +170,7 @@ try
     //===================================================================================
     log::debug(DebugWritingGroups);
 
-    for (auto&& [i, group]: std::views::enumerate(task.groups)) {
+    for (auto&& [i, group]: std::views::enumerate(task.get<Groups>())) {
         auto const schedule { makeGroupSchedule(i, assigned, task)             };
         auto const filename { std::format(GroupFnFmt, config.output, group.id) };
         auto const expected { writeGroupSchedule(schedule, task, filename)     };
@@ -177,7 +183,7 @@ try
     //===================================================================================
     log::debug(DebugWritingRooms);
     
-    for (auto&& [i, room]: std::views::enumerate(task.rooms)) {
+    for (auto&& [i, room]: std::views::enumerate(task.get<Rooms>())) {
         auto const schedule { makeRoomSchedule(i, assigned, task)            };
         auto const filename { std::format(RoomFnFmt, config.output, room.id) };        
         auto const expected { writeRoomSchedule(schedule, task, filename)    };
@@ -190,7 +196,7 @@ try
     //===================================================================================
     log::debug(DebugWritingStuff);
 
-    for (auto&& [i, stuff]: std::views::enumerate(task.instructors)) {
+    for (auto&& [i, stuff]: std::views::enumerate(task.get<Instructors>())) {
         auto const schedule { makeInstructorSchedule(i, assigned, task)          };
         auto const filename { std::format(StuffFnFmt, config.output, stuff.name) };
         auto const expected { writeInstructorSchedule(schedule, task, filename)  };

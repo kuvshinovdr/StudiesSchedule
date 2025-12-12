@@ -143,5 +143,8 @@
     <ClInclude Include="..\src\solve_graph_adaptor.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\indexed_storage.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

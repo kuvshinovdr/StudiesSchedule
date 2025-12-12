@@ -153,6 +153,7 @@
     <ClInclude Include="..\src\file_operations_fwd.hpp" />
     <ClInclude Include="..\src\file_to_string.hpp" />
     <ClInclude Include="..\src\graph_coloring.hpp" />
+    <ClInclude Include="..\src\indexed_storage.hpp" />
     <ClInclude Include="..\src\input.hpp" />
     <ClInclude Include="..\src\solve.hpp" />
     <ClInclude Include="..\src\solve_graph_adaptor.hpp" />
