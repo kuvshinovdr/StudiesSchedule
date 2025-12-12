@@ -79,4 +79,69 @@ TEST_SUITE("task")
         CHECK(!rooms.indexOf("444"sv));
     }
 
+    TEST_CASE("Task")
+    {
+        auto task { Task{} };
+
+        task.set<Rooms>(
+            Rooms
+            { 
+                Room{.id = "101"}, 
+                Room{.id = "202"}, 
+            });
+
+        task.set<Groups>(
+            Groups
+            { 
+                Group{.id = "A-1"}, 
+                Group{.id = "B-2"},
+            });
+
+        task.set<Instructors>(
+            Instructors
+            { 
+                Instructor{.name = "Alice"}, 
+                Instructor{.name = "Bob"},
+            });
+
+        task.set<TimeSlots>(
+            TimeSlots
+            {
+                TimeSlot{.dayOfWeek = "Mon", .daySlot = "1"}, 
+                TimeSlot{.dayOfWeek = "Tue", .daySlot = "2"},
+                TimeSlot{.dayOfWeek = "Tue", .daySlot = "3"},
+            });
+
+        task.set<Subjects>(
+            Subjects
+            {
+                Subject{.title = "Math", .groupId = "A-1", .instructorName = "Alice"},
+                Subject{.title = "Prog", .groupId = "A-1", .instructorName = "Bob"},
+                Subject{.title = "Physics", .groupId = "B-2", .instructorName = "Alice"},
+                Subject{.title = "Numeric", .groupId = "B-2", .instructorName = "Bob"},
+            });
+
+        CHECK(task.get<Rooms>().size() == 2);
+        CHECK(*task.indexOf<Room>("101") == 0);
+        CHECK(*task.indexOf<Room>("202") == 1);
+        CHECK(!task.indexOf<Room>("999"));
+
+        CHECK(task.get<Groups>().size() == 2);
+        CHECK(*task.indexOf<Group>("B-2") == 1);
+        CHECK(!task.indexOf<Group>("B-3"));
+        CHECK(task.get<Group>(0).id == "A-1"sv);
+
+        CHECK(task.get<Instructors>().size() == 2);
+        CHECK(*task.indexOf<Instructor>("Alice"sv) == 0);
+        CHECK(!task.indexOf<Instructor>(""));
+
+        CHECK(task.get<TimeSlots>().size() == 3);
+        CHECK(*task.indexOf<TimeSlot>(TimeSlot{.dayOfWeek = "Mon", .daySlot = "1"}) == 0);
+        CHECK(!task.indexOf<TimeSlot>(TimeSlot{}));
+        CHECK(task.get<TimeSlot>(2).dayOfWeek == "Tue");
+
+        CHECK(task.get<Subjects>().size() == 4);
+        CHECK(task.get<Subject>(3).title == "Numeric"sv);
+    }
+
 }
