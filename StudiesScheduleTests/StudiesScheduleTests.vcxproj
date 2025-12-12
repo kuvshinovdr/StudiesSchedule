@@ -139,7 +139,6 @@
     <ClCompile Include="..\src\separate_assignments.cpp" />
     <ClCompile Include="..\src\solve.cpp" />
     <ClCompile Include="..\src\solve_graph_adaptor.cpp" />
-    <ClCompile Include="..\src\task.cpp" />
     <ClCompile Include="..\tests\log_test_implementation.cpp" />
     <ClCompile Include="..\tests\test_config.cpp" />
     <ClCompile Include="..\tests\test_csv.cpp" />

@@ -75,9 +75,6 @@
     <ClCompile Include="..\tests\test_solve_graph_adaptor.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\task.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="..\tests\test_task.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
