@@ -10,7 +10,8 @@ sources = [
 	'separate_assignments.cpp',
 	'solve.cpp',
 	'solve_graph_adaptor.cpp',
-	'string_to_file.cpp'
+	'string_to_file.cpp',
+	'task.cpp'
 ]
 
 source_files = files(sources)

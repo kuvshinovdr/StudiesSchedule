@@ -144,6 +144,7 @@
     <ClCompile Include="..\src\solve.cpp" />
     <ClCompile Include="..\src\solve_graph_adaptor.cpp" />
     <ClCompile Include="..\src\string_to_file.cpp" />
+    <ClCompile Include="..\src\task.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\config.hpp" />

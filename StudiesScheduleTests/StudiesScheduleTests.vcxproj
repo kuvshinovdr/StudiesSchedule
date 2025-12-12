@@ -139,6 +139,7 @@
     <ClCompile Include="..\src\separate_assignments.cpp" />
     <ClCompile Include="..\src\solve.cpp" />
     <ClCompile Include="..\src\solve_graph_adaptor.cpp" />
+    <ClCompile Include="..\src\task.cpp" />
     <ClCompile Include="..\tests\log_test_implementation.cpp" />
     <ClCompile Include="..\tests\test_config.cpp" />
     <ClCompile Include="..\tests\test_csv.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="..\tests\test_solve.cpp" />
     <ClCompile Include="..\tests\test_solve_graph_adaptor.cpp" />
     <ClCompile Include="..\tests\test_string_operations.cpp" />
+    <ClCompile Include="..\tests\test_task.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\assignments.hpp" />
