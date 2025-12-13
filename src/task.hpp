@@ -103,35 +103,33 @@ namespace studies_schedule
     namespace impl
     {
 
+        template <typename Item> struct TaskItemsByItem {}; // пусто: нет общего определения.
+        // Конкретные версии:
+        template <> struct TaskItemsByItem<TimeSlot>   { using type = TimeSlots;   };
+        template <> struct TaskItemsByItem<Room>       { using type = Rooms;       };
+        template <> struct TaskItemsByItem<Group>      { using type = Groups;      };
+        template <> struct TaskItemsByItem<Instructor> { using type = Instructors; };
+        template <> struct TaskItemsByItem<Subject>    { using type = Subjects;    };
+
         using TimeSlotToIndex =
             std::unordered_map<TimeSlot, TaskIndex, TimeSlotHash>;
 
         using StringToIndex =
             std::unordered_map<StringView, TaskIndex, StringHash, std::equal_to<>>;
 
-        template <typename Items>
-        struct TaskBaseFor
+        template <typename Items> struct TaskIndexFor { using type = StringToIndex;  }; // общее определение.
+        // Специальные версии:
+        template <> struct TaskIndexFor<TimeSlots> { using type = TimeSlotToIndex; };
+
+        template <typename Items> 
+        struct TaskBaseFor 
         {
-            // Пусто.
+            // Общее определение:
+            using type = IndexedStorage<Items, typename TaskIndexFor<Items>::type>;
         };
 
-        template <> struct TaskBaseFor<TimeSlots>   { using type = IndexedStorage<TimeSlots,   TimeSlotToIndex>; };
-        template <> struct TaskBaseFor<Rooms>       { using type = IndexedStorage<Rooms,       StringToIndex>;   };
-        template <> struct TaskBaseFor<Groups>      { using type = IndexedStorage<Groups,      StringToIndex>;   };
-        template <> struct TaskBaseFor<Instructors> { using type = IndexedStorage<Instructors, StringToIndex>;   };
-        template <> struct TaskBaseFor<Subjects>    { using type = BasicStorage<Subjects>;                       };
-
-        template <typename Item>
-        struct TaskItemsByItem
-        {
-            // Пусто.
-        };
-
-        template <> struct TaskItemsByItem<TimeSlot>   { using type = TimeSlots;   };
-        template <> struct TaskItemsByItem<Room>       { using type = Rooms;       };
-        template <> struct TaskItemsByItem<Group>      { using type = Groups;      };
-        template <> struct TaskItemsByItem<Instructor> { using type = Instructors; };
-        template <> struct TaskItemsByItem<Subject>    { using type = Subjects;    };
+        // На данный момент нет индексирования для предметов, но его можно будет добавить при необходимости.
+        template <> struct TaskBaseFor<Subjects> { using type = BasicStorage<Subjects>; };
 
     }
 
@@ -140,8 +138,8 @@ namespace studies_schedule
         typename impl::TaskBaseFor<Items>::type;
 
     template <typename Item>
-    using TaskItemsByItem =
-        typename impl::TaskItemsByItem<Item>::type;
+    using TaskBaseByItem =
+        TaskBaseFor<typename impl::TaskItemsByItem<Item>::type>;
 
     class Task
         : TaskBaseFor<TimeSlots>
@@ -168,13 +166,13 @@ namespace studies_schedule
         template <typename Item>
         [[nodiscard]] decltype(auto) get(TaskIndex index) const noexcept
         {
-            return TaskBaseFor<TaskItemsByItem<Item>>::operator[](index);
+            return TaskBaseByItem<Item>::operator[](index);
         }
 
         template <typename Item, typename Key>
         [[nodiscard]] auto indexOf(Key const& key) const noexcept
         {
-            return TaskBaseFor<TaskItemsByItem<Item>>::indexOf(key);
+            return TaskBaseByItem<Item>::indexOf(key);
         }
     };
 

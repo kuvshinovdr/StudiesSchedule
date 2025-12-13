@@ -8,7 +8,7 @@ namespace studies_schedule
     // Центральная функция приложения -- реализация алгоритма составления расписания на основе функций
     // из solve_graph_adaptor.hpp и graph_coloring.hpp.
     //
-    // 1.  Построить граф предметов с помощью makeSubjectGraph(task.subjects).
+    // 1.  Построить граф предметов с помощью makeSubjectGraph(task.get<Subjects>()).
     // 2.  Составить набор запрещённых цветов с помощью makeForbiddenColorsForSubjects(task).
     // 3.  Повторять:
     // 3.1 Найти правильную раскраску графа предметов (с учётом набора запрещённых цветов) с помощью computeVertexColoring.

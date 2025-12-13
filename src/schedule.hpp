@@ -10,11 +10,10 @@ namespace studies_schedule
 
     struct GroupScheduleRow
     {
-        TimeSlot timeSlot;
-
-        String room;
-        String subject;
-        String instructor;
+        TimeSlot timeSlot   {};
+        String   room       {};
+        String   subject    {};
+        String   instructor {};
 
         [[nodiscard]] constexpr auto operator<=>(GroupScheduleRow const&) const noexcept = default;
     };
@@ -24,11 +23,10 @@ namespace studies_schedule
 
     struct InstructorScheduleRow
     {
-        TimeSlot timeSlot;
-
-        String room;
-        String subject;
-        String group;
+        TimeSlot timeSlot   {};
+        String   room       {};
+        String   subject    {};
+        String   group      {};
 
         [[nodiscard]] constexpr auto operator<=>(InstructorScheduleRow const&) const noexcept = default;
     };
@@ -38,11 +36,10 @@ namespace studies_schedule
 
     struct RoomScheduleRow
     {
-        TimeSlot timeSlot;
-
-        String subject;
-        String group;
-        String instructor;
+        TimeSlot timeSlot   {};
+        String   subject    {};
+        String   group      {};
+        String   instructor {};
 
         [[nodiscard]] constexpr auto operator<=>(RoomScheduleRow const&) const noexcept = default;
     };

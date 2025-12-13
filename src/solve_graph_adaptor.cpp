@@ -4,7 +4,7 @@
 namespace studies_schedule
 {
 
-    auto makeSubjectGraph(Subjects const& subjects)
+    auto makeSubjectGraph(std::span<Subject const> subjects)
         -> AdjacencyList
     {
         // TODO

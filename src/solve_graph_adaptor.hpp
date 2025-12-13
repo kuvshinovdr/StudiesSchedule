@@ -7,6 +7,8 @@
 #include "assignments.hpp"
 #include "graph_coloring.hpp"
 
+#include <span>
+
 namespace studies_schedule
 {
 
@@ -15,7 +17,7 @@ namespace studies_schedule
     /// @return     списки соседей, задающие граф
     /// 
     /// Подготовка для решения задачи 1 (см. README).
-    [[nodiscard]] auto makeSubjectGraph(Subjects const& subjects)
+    [[nodiscard]] auto makeSubjectGraph(std::span<Subject const> subjects)
         -> AdjacencyList;
 
     /// @brief      Построить построить наборы запрещённых временных слотов.
