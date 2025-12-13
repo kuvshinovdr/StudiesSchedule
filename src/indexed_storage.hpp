@@ -6,14 +6,63 @@
 #include <span>
 #include <iterator>
 #include <optional>
+#include <type_traits>
 #include <utility>
 
 namespace studies_schedule
 {
 
+    /// Способы реализации поведения в случае попытки обращения к несуществующему элементы
+    namespace invalid_index_policies
+    {
+
+        /// @brief Вернуть ссылку на статическую переменную, инициализированную по умолчанию.
+        template <typename Value>
+        struct ReturnEmptyValue
+        {
+            template <typename Index>
+            constexpr auto operator()(Index&&) const noexcept
+                -> Value const&
+            {
+                static Value const noValue;
+                return noValue;
+            }
+        };
+
+        /// @brief Вернуть пустой std::optional.
+        template <typename Value>
+        struct ReturnEmptyOptional
+        {
+            template <typename Index>
+            constexpr auto operator()(Index&&) const noexcept
+                -> std::optional<Value>
+            {
+                return {};
+            }
+        };
+
+    }
+
+    namespace impl
+    {
+        /// Извлекает тип значения контейнера. Можно переопределить.
+        template <typename Container>
+        struct ValueType
+        {
+            using type = typename Container::value_type;
+        };
+    }
+
+    template <typename Container>
+    using ValueType =
+        typename impl::ValueType<Container>::type;
+
     /// @brief  Базовый класс, реализующий простое хранение данных для случая отсутствия индекса.
     /// @tparam Data данные
-    template <typename Data>
+    template <
+        typename Data, 
+        typename InvalidIndexPolicy = invalid_index_policies::ReturnEmptyValue<ValueType<Data>>
+        >
     class BasicStorage
     {
     public:
@@ -23,11 +72,24 @@ namespace studies_schedule
             return std::span{_data};
         }
 
-        /// @brief Получить ссылку на элемент хранимых данных по его индексу. Неопределённое поведение в случае неверного индекса.
+        /// @brief Получить ссылку на элемент хранимых данных по его индексу.
+        ///
+        /// В случае неверного индекса возвращает результат вызова InvalidIndexPolicy для этого индекса.
         template <typename Index>
         [[nodiscard]] constexpr decltype(auto) operator[](Index index) const
         {
-            return get()[index];
+            using Result = std::common_type_t<
+                decltype(get()[index]), 
+                decltype(InvalidIndexPolicy{}(index))
+                >;
+            
+            auto const view { get() };
+
+            if (static_cast<std::size_t>(index) < view.size()) {
+                return static_cast<Result>(view[index]);
+            }
+
+            return static_cast<Result>(InvalidIndexPolicy{}(index));
         }
 
     protected:
@@ -68,12 +130,20 @@ namespace studies_schedule
         typename impl::MappedType<Dict>::type;
 
     /// @brief  Базовый класс, реализующий индексирование хранимого вектора с помощью словаря.
-    /// @tparam Data          индексируемый вектор данных
-    /// @tparam IdToIndexDict словарь, отображающий идентификаторы хранимых данных в их индексы в векторе
-    /// @tparam Id            преобразование, возвращающее идентификатор для объекта
-    template <typename Data, typename IdToIndexDict, typename Id = DefaultId>
+    /// @tparam Data                   индексируемый вектор данных
+    /// @tparam IdToIndexDict          словарь, отображающий идентификаторы хранимых данных в их индексы в векторе
+    /// @tparam DataInvalidIndexPolicy определяет действие/результат при обращении к элементу по недопустимому индексу (оператор [])
+    /// @tparam DictInvalidIndexPolicy определяет действие/результат при отсутствии объекта с заданным ключом (indexOf)
+    /// @tparam Id                     преобразование, возвращающее идентификатор для объекта
+    template <
+        typename Data, 
+        typename IdToIndexDict,
+        typename DataInvalidIndexPolicy = invalid_index_policies::ReturnEmptyValue<ValueType<Data>>,
+        typename DictInvalidIndexPolicy = invalid_index_policies::ReturnEmptyOptional<MappedType<IdToIndexDict>>,
+        typename Id                     = DefaultId
+        >
     class IndexedStorage
-        : public BasicStorage<Data>
+        : public BasicStorage<Data, DataInvalidIndexPolicy>
     {
     public:
         /// @brief Тип индекса.
@@ -91,16 +161,20 @@ namespace studies_schedule
 
         /// @brief Получить индекс элемента хранимых данных по ключу. В случае отсутствия элемента возвращает пустой optional.
         template <typename Key>
-        [[nodiscard]] auto indexOf(Key const& key) const noexcept
-            -> std::optional<Index>
+        [[nodiscard]] decltype(auto) indexOf(Key const& key) const noexcept
         {
+            using Result = std::common_type_t<
+                decltype(_idToIndexDict.find(key)->second),
+                decltype(DictInvalidIndexPolicy{}(key))
+                >;
+            
             using std::end;
             
             if (auto it = _idToIndexDict.find(key); it != end(_idToIndexDict)) {
-                return it->second;
+                return static_cast<Result>(it->second);
             }
 
-            return {};
+            return static_cast<Result>(DictInvalidIndexPolicy{}(key));
         }
 
     protected:
