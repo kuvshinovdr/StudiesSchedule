@@ -23,7 +23,7 @@ namespace studies_schedule
             return std::span{_data};
         }
 
-        /// @brief Получить ссылку на элемент хранимых данных по его индексу. В случае неверного индекса бросает исключение.
+        /// @brief Получить ссылку на элемент хранимых данных по его индексу. Неопределённое поведение в случае неверного индекса.
         template <typename Index>
         [[nodiscard]] constexpr decltype(auto) operator[](Index index) const
         {
@@ -52,6 +52,21 @@ namespace studies_schedule
         }
     };
 
+    namespace impl
+    {
+        /// Извлекает тип значения словаря. Можно переопределить.
+        template <typename Dict>
+        struct MappedType
+        {
+            using type = typename Dict::mapped_type;
+        };
+    }
+
+    /// @brief Извлечь тип значения, в который отображает свои ключи словарь Dict.
+    template <typename Dict>
+    using MappedType = 
+        typename impl::MappedType<Dict>::type;
+
     /// @brief  Базовый класс, реализующий индексирование хранимого вектора с помощью словаря.
     /// @tparam Data          индексируемый вектор данных
     /// @tparam IdToIndexDict словарь, отображающий идентификаторы хранимых данных в их индексы в векторе
@@ -62,7 +77,7 @@ namespace studies_schedule
     {
     public:
         /// @brief Тип индекса.
-        using Index = typename IdToIndexDict::mapped_type;
+        using Index = MappedType<IdToIndexDict>;
 
         using BasicStorage<Data>::get;
         using BasicStorage<Data>::operator[];
