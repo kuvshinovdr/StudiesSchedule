@@ -111,6 +111,7 @@ TEST_SUITE("graph coloring")
             Coloring wrongSize = {0, 1, 2};
             CHECK(isProperVertexColoring(wrongSize, k4) == false);
         }
+    }
     
     TEST_CASE("randomColoring")
     {
