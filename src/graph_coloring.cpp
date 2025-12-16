@@ -16,11 +16,33 @@ namespace studies_schedule
         return false;
     }
 
-    bool isProperVertexColoring(Coloring const& coloring, AdjacencyList const& graph)
+   bool isProperVertexColoring(Coloring const& coloring, AdjacencyList const& graph)
+{
+    if (coloring.size() != graph.size())
     {
-        // TODO
         return false;
     }
+    
+    for (size_t vertex = 0; vertex < graph.size(); ++vertex)
+    {
+        Color currentColor = coloring[vertex];
+        
+        for (VertexIndex neighbor : graph[vertex])
+        {
+            if (neighbor < 0 || neighbor >= static_cast<VertexIndex>(graph.size()))
+            {
+                return false;
+            }
+            
+            if (coloring[neighbor] == currentColor)
+            {
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
 
     auto randomColoring(VertexIndex vertices, Color colors)
         -> Coloring
