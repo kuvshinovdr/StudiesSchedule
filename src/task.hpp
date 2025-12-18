@@ -102,7 +102,7 @@ namespace studies_schedule
 
     namespace impl
     {
-
+        
         template <typename Item> struct TaskItemsByItem {}; // пусто: нет общего определения.
         // Конкретные версии:
         template <> struct TaskItemsByItem<TimeSlot>   { using type = TimeSlots;   };

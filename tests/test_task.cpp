@@ -83,28 +83,28 @@ TEST_SUITE("task")
     {
         auto task { Task{} };
 
-        task.set<Rooms>(
+        task.set(
             Rooms
             { 
                 Room{.id = "101"}, 
                 Room{.id = "202"}, 
             });
 
-        task.set<Groups>(
+        task.set(
             Groups
             { 
                 Group{.id = "A-1"}, 
                 Group{.id = "B-2"},
             });
 
-        task.set<Instructors>(
+        task.set(
             Instructors
             { 
                 Instructor{.name = "Alice"}, 
                 Instructor{.name = "Bob"},
             });
 
-        task.set<TimeSlots>(
+        task.set(
             TimeSlots
             {
                 TimeSlot{.dayOfWeek = "Mon", .daySlot = "1"}, 
@@ -112,7 +112,7 @@ TEST_SUITE("task")
                 TimeSlot{.dayOfWeek = "Tue", .daySlot = "3"},
             });
 
-        task.set<Subjects>(
+        task.set(
             Subjects
             {
                 Subject{.title = "Math", .groupId = "A-1", .instructorName = "Alice"},

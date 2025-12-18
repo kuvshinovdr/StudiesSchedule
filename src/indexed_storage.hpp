@@ -58,7 +58,7 @@ namespace studies_schedule
         typename impl::ValueType<Container>::type;
 
     /// @brief  Базовый класс, реализующий простое хранение данных для случая отсутствия индекса.
-    /// @tparam Data данные
+    /// @tparam Data данные (std::vector или его аналог)
     template <
         typename Data, 
         typename InvalidIndexPolicy = invalid_index_policies::ReturnEmptyValue<ValueType<Data>>
