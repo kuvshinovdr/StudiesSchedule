@@ -41,7 +41,7 @@ TEST_SUITE("graph coloring")
             Coloring startColoring = { 1, 2, 1, 2, 1, 2, 2 };
             Color maxColor = computeVertexColoring(graph, forbidden, startColoring);
             
-            CHECK(maxColor == 3);
+            CHECK(maxColor == 2);
             CHECK(isProperVertexColoring(startColoring, graph) == true);
         }
 

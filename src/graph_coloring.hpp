@@ -77,11 +77,11 @@ namespace studies_schedule
     /// @param forbiddenColors  списки цветов, запрещённых для каждой вершины (индекс массива == индекс вершины)
     /// @param vertexColoring   вершинная раскраска (раскраска, которую следует проверить на наличие конфликтов)
     /// @return                 список троек (количество конфликтов, минимальный цвет перекраски, вершина };
-    auto listConflicts(
+    [[nodiscard]] auto listConflicts(
             AdjacencyList   const& graph,
             ForbiddenColors const& forbiddenColors,
-            Coloring& vertexColoring
-    ) -> Conflicts;
+            Coloring        const& vertexColoring
+        ) -> Conflicts;
 
     /// @brief                  Вычислить правильную вершинную раскраску графа.
     /// @param graph            входной граф, заданный списками соседей
