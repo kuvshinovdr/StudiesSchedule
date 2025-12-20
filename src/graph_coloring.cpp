@@ -1,5 +1,7 @@
 ﻿/// @file  graph_coloring.cpp
 #include "graph_coloring.hpp"
+
+#include <functional>
 #include <algorithm>
 #include <ranges>
 #include <set>
@@ -19,26 +21,23 @@ namespace studies_schedule
         return false;
     }
 
-   bool isProperVertexColoring(Coloring const& coloring, AdjacencyList const& graph)
+    [[nodiscard]] constexpr auto mapArray(auto const& array)
     {
-        if (coloring.size() != graph.size()) {
-            return false;
-        }
-    
-        for (auto vertex = 0zu; vertex < graph.size(); ++vertex) {
-            auto const currentColor { coloring[vertex] };
-            for (auto neighbor : graph[vertex]) {
-                if (neighbor < 0 || neighbor >= static_cast<VertexIndex>(graph.size())) {
-                    return false;
-                }
-            
-                if (coloring[neighbor] == currentColor) {
-                    return false;
-                }
-            }
-        }
-    
-        return true;
+        return [&](auto const& index) -> decltype(auto)
+            {
+                return array[index];
+            };
+    }
+
+    bool isProperVertexColoring(Coloring const& coloring, AdjacencyList const& graph)
+    {
+        return coloring.size() == graph.size() &&
+            std::ranges::none_of(std::views::zip(coloring, graph),
+            [&](auto&& pair) 
+            { 
+                auto&& [color, adjacency] = pair;
+                return std::ranges::contains(std::views::transform(adjacency, mapArray(coloring)), color);
+            });
     }
 
     auto randomColoring(VertexIndex vertices, Color colors)
