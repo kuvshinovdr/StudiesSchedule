@@ -37,6 +37,17 @@ namespace studies_schedule
     using ForbiddenColors =
         std::vector<std::vector<Color>>;
 
+    struct ConflictData
+    {
+        Index rank;
+        Index color;
+        Index vertex;
+    };
+
+    /// @brief Список троек (количество конфликтов, минимальный цвет для безконфликтной перекраски, вершина }.
+    using Conflicts = 
+        std::vector<ConflictData>;
+
     /// @brief Проверить, является ли adjacencyList настоящим представлением графа (не содержит ли ошибок).
     ///
     /// - каждый список соседей содержит индексы вершин (числа из [0, size(adjacencyList) - 1]);
@@ -60,6 +71,17 @@ namespace studies_schedule
     /// Заполнить случайно с равномерным распределением значениями [0, colors-1].
     [[nodiscard]] auto randomColoring(VertexIndex vertices, Color colors)
         -> Coloring;
+
+    /// @brief                  Вычислить конфликты цветов в раскрашенном графе
+    /// @param graph            входной граф, заданный списками соседей
+    /// @param forbiddenColors  списки цветов, запрещённых для каждой вершины (индекс массива == индекс вершины)
+    /// @param vertexColoring   вершинная раскраска (раскраска, которую следует проверить на наличие конфликтов)
+    /// @return                 список троек (количество конфликтов, минимальный цвет перекраски, вершина };
+    [[nodiscard]] auto listConflicts(
+            AdjacencyList   const& graph,
+            ForbiddenColors const& forbiddenColors,
+            Coloring        const& vertexColoring
+        ) -> Conflicts;
 
     /// @brief                  Вычислить правильную вершинную раскраску графа.
     /// @param graph            входной граф, заданный списками соседей
