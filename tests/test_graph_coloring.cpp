@@ -21,76 +21,76 @@ TEST_SUITE("graph coloring")
         using namespace studies_schedule;
         
         SUBCASE("Empty graph") {
-            AdjacencyList emptyGraph = {};
+            auto emptyGraph { AdjacencyList{} };
             
-            Coloring emptyColoring = {};
+            auto emptyColoring { Coloring{} };
             CHECK(isProperVertexColoring(emptyColoring, emptyGraph) == true);
             
-            Coloring wrongSize = {0};
+            auto wrongSize { Coloring{0} };
             CHECK(isProperVertexColoring(wrongSize, emptyGraph) == false);
         }
         
         SUBCASE("Single vertex") {
-            AdjacencyList singleVertex = {{}};
+            auto singleVertex { AdjacencyList{{}} };
             
-            Coloring properColoring = {0};
+            auto properColoring { Coloring{0} };
             CHECK(isProperVertexColoring(properColoring, singleVertex) == true);
             
-            Coloring wrongSize1 = {};
+            auto wrongSize1 { Coloring{} };
             CHECK(isProperVertexColoring(wrongSize1, singleVertex) == false);
             
-            Coloring wrongSize2 = {0, 1};
+            auto wrongSize2 { Coloring{0, 1} };
             CHECK(isProperVertexColoring(wrongSize2, singleVertex) == false);
         }
         
         SUBCASE("Graph without edges") {
-            AdjacencyList noEdges = {{}, {}, {}, {}};
+            auto noEdges { AdjacencyList{{}, {}, {}, {}} };
             
-            Coloring sameColors = {2, 2, 2, 2};
+            auto sameColors { Coloring{2, 2, 2, 2} };
             CHECK(isProperVertexColoring(sameColors, noEdges) == true);
             
-            Coloring differentColors = {0, 1, 2, 3};
+            auto differentColors { Coloring{0, 1, 2, 3} };
             CHECK(isProperVertexColoring(differentColors, noEdges) == true);
             
-            Coloring wrongSize = {0, 1, 2};
+            auto wrongSize { Coloring{0, 1, 2} };
             CHECK(isProperVertexColoring(wrongSize, noEdges) == false);
         }
         
         SUBCASE("Path graph (3 vertices)") {
-            AdjacencyList path = {{1}, {0, 2}, {1}};
+            auto path { AdjacencyList{{1}, {0, 2}, {1}} };
             
-            Coloring proper2Colors = {0, 1, 0};
+            auto proper2Colors { Coloring{0, 1, 0} };
             CHECK(isProperVertexColoring(proper2Colors, path) == true);
             
-            Coloring proper3Colors = {0, 1, 2};
+            auto proper3Colors { Coloring{0, 1, 2} };
             CHECK(isProperVertexColoring(proper3Colors, path) == true);
             
-            Coloring improper1 = {0, 0, 1};
+            auto improper1 { Coloring{0, 0, 1} };
             CHECK(isProperVertexColoring(improper1, path) == false);
             
-            Coloring improper2 = {0, 1, 1};
+            auto improper2 { Coloring{0, 1, 1} };
             CHECK(isProperVertexColoring(improper2, path) == false);
         
-            Coloring allSame = {5, 5, 5};
+            auto allSame { Coloring{5, 5, 5} };
             CHECK(isProperVertexColoring(allSame, path) == false);
         }
         
         SUBCASE("Triangle graph (K3)") {
-            AdjacencyList triangle = {{1, 2}, {0, 2}, {0, 1}};
+            auto triangle { AdjacencyList{{1, 2}, {0, 2}, {0, 1}} };
             
-            Coloring proper3Colors = {0, 1, 2};
+            auto proper3Colors { Coloring{0, 1, 2} };
             CHECK(isProperVertexColoring(proper3Colors, triangle) == true);
 
-            Coloring improper1 = {0, 0, 1}; 
+            auto improper1 { Coloring{0, 0, 1} };
             CHECK(isProperVertexColoring(improper1, triangle) == false);
             
-            Coloring improper2 = {0, 1, 0};
+            auto improper2 { Coloring{0, 1, 0} };
             CHECK(isProperVertexColoring(improper2, triangle) == false);
             
-            Coloring improper3 = {1, 0, 1};
+            auto improper3 { Coloring{1, 0, 1} };
             CHECK(isProperVertexColoring(improper3, triangle) == false);
             
-            Coloring allSame = {3, 3, 3};
+            auto allSame { Coloring{3, 3, 3} };
             CHECK(isProperVertexColoring(allSame, triangle) == false);
         }
         
