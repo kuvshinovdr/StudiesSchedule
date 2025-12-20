@@ -37,11 +37,12 @@ namespace studies_schedule
     using ForbiddenColors =
         std::vector<std::vector<Color>>;
 
+    /// @brief Описание конфликта цвета вершины с её соседями.
     struct ConflictData
     {
-        Index rank;
-        Index color;
-        Index vertex;
+        VertexIndex rank    {}; ///< количество соседей, окрашенных в тот же цвет, что и вершина
+        Color       color   {}; ///< минимальный неконфликтующий с соседями цвет
+        VertexIndex vertex  {}; ///< номер вершины
     };
 
     /// @brief Список троек (количество конфликтов, минимальный цвет для безконфликтной перекраски, вершина }.

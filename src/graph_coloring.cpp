@@ -54,31 +54,31 @@ namespace studies_schedule
     }
 
     auto listConflicts(
-        AdjacencyList   const& graph,
-        ForbiddenColors const& forbiddenColors,
-        Coloring        const& vertexColoring
-    ) -> Conflicts
+            AdjacencyList   const& graph,
+            ForbiddenColors const& forbiddenColors,
+            Coloring        const& vertexColoring
+        ) -> Conflicts
     {
         Conflicts conflicts;
-        for (Index vertex = 0; vertex < graph.size(); ++vertex)
+        for (VertexIndex vertex = 0; vertex < graph.size(); ++vertex)
         {
-            std::vector<Index> neighborsColors = {};
+            std::vector<VertexIndex> neighborsColors = {};
             for (auto neighbor : graph[vertex])
             {
                 neighborsColors.push_back(vertexColoring[neighbor]);
             }
-            Index conflictRank = std::count(neighborsColors.begin(),
+            VertexIndex conflictRank = std::count(neighborsColors.begin(),
                                             neighborsColors.end(),
                                             vertexColoring[vertex]);
             if (conflictRank > 0)
             {
 
-                std::set<Index> neighborsSet(neighborsColors.begin(), neighborsColors.end());
+                std::set<VertexIndex> neighborsSet(neighborsColors.begin(), neighborsColors.end());
 
                 neighborsSet.insert(forbiddenColors[vertex].begin(), forbiddenColors[vertex].end());
-                Index newColor = *neighborsSet.rbegin() + 1;
+                VertexIndex newColor = *neighborsSet.rbegin() + 1;
 
-                for (Index color = 0; color < newColor - 1; ++color)
+                for (VertexIndex color = 0; color < newColor - 1; ++color)
                 {
                     if (auto search = neighborsSet.find(color); search == neighborsSet.end())
                     {
@@ -116,7 +116,7 @@ namespace studies_schedule
                 return maxColor != 0 ? maxColor : graph.size();
             }
 
-            std::set<Index> closed{};
+            std::set<VertexIndex> closed{};
             for (auto v : conflicts)
             {
                 auto u = v.vertex;
