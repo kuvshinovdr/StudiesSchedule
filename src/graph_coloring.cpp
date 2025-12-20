@@ -1,6 +1,7 @@
 ﻿/// @file  graph_coloring.cpp
 #include "graph_coloring.hpp"
 
+#include <tuple>
 #include <functional>
 #include <algorithm>
 #include <ranges>
@@ -21,6 +22,7 @@ namespace studies_schedule
         return false;
     }
 
+    // Чего-то подобного не хватает в стандартной библиотеке.
     [[nodiscard]] constexpr auto mapArray(auto const& array)
     {
         return [&](auto const& index) -> decltype(auto)
@@ -29,15 +31,29 @@ namespace studies_schedule
             };
     }
 
+    // Это тоже должно было бы быть в стандартной библиотеке или даже частью языка.
+    [[nodiscard]] constexpr auto applyTuple(auto&& fun)
+    {
+        return [&](auto&& tuple) -> decltype(auto)
+            {
+                return std::apply(fun, tuple);
+            };
+    }
+
+    [[nodiscard]] bool adjacencyContainsColor(
+            Coloring  const& coloring, 
+            Adjacency const& adjacency, 
+            Color            color
+        )
+    {
+        return std::ranges::contains(std::views::transform(adjacency, mapArray(coloring)), color);
+    }
+
     bool isProperVertexColoring(Coloring const& coloring, AdjacencyList const& graph)
     {
-        return coloring.size() == graph.size() &&
-            std::ranges::none_of(std::views::zip(coloring, graph),
-            [&](auto&& pair) 
-            { 
-                auto&& [color, adjacency] = pair;
-                return std::ranges::contains(std::views::transform(adjacency, mapArray(coloring)), color);
-            });
+        auto checkColor { applyTuple(std::bind_front(adjacencyContainsColor, std::cref(coloring))) };
+        return coloring.size() == graph.size() && 
+            std::ranges::none_of(std::views::zip(graph, coloring), checkColor);
     }
 
     auto randomColoring(VertexIndex vertices, Color colors)
