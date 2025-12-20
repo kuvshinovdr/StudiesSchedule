@@ -139,7 +139,7 @@ TEST_SUITE("graph coloring")
             auto maxColor      { computeVertexColoring(graph, forbidden, startColoring) };
             
             CHECK(maxColor == 2);
-            CHECK(isProperVertexColoring(startColoring, graph) == true);
+            CHECK(isProperVertexColoring(startColoring, graph));
         }
 
         SUBCASE("proper coloring 2")
@@ -157,7 +157,7 @@ TEST_SUITE("graph coloring")
             auto maxColor      { computeVertexColoring(graph, forbidden, startColoring) };
 
             CHECK(maxColor <= 2);
-            CHECK(isProperVertexColoring(startColoring, graph) == true);
+            CHECK(isProperVertexColoring(startColoring, graph));
         }
 
         SUBCASE("respects forbidden colors")
@@ -176,7 +176,7 @@ TEST_SUITE("graph coloring")
             CHECK(startColoring[0] != 1);
             CHECK(startColoring[1] != 2);
             CHECK(startColoring[2] != 3);
-            CHECK(isProperVertexColoring(startColoring, graph) == true);
+            CHECK(isProperVertexColoring(startColoring, graph));
         }
 
         SUBCASE("empty graph")
@@ -201,6 +201,70 @@ TEST_SUITE("graph coloring")
 
             CHECK(maxColor == 1);
             CHECK(coloring[0] == 1);
+        }
+
+        SUBCASE("k3,3")
+        {
+            auto k33 = AdjacencyList
+            {
+                { 3, 4, 5 },
+                { 3, 4, 5 },
+                { 3, 4, 5 },
+                { 0, 1, 2 },
+                { 0, 1, 2 },
+                { 0, 1, 2 },
+            };
+
+            auto forbidden { ForbiddenColors(k33.size()) };
+            auto coloring  { Coloring(k33.size()) };
+
+            auto maxColor { computeVertexColoring(k33, forbidden, coloring) };
+
+            CHECK(maxColor == 1);
+            CHECK(isProperVertexColoring(coloring, k33));
+        }
+
+        SUBCASE("k5")
+        {
+            auto k5 = AdjacencyList
+            {
+                { 1, 2, 3, 4 },
+                { 0, 2, 3, 4 },
+                { 0, 1, 3, 4 },
+                { 0, 1, 2, 4 },
+                { 0, 1, 2, 3 },
+            };
+
+            auto forbidden { ForbiddenColors(k5.size()) };
+            auto coloring  { Coloring(k5.size()) };
+
+            auto maxColor { computeVertexColoring(k5, forbidden, coloring) };
+
+            CHECK(maxColor == 4);
+            CHECK(isProperVertexColoring(coloring, k5));
+        }
+
+        SUBCASE("k4xk4")
+        {
+            auto k4xk4 = AdjacencyList
+            {
+                { 1, 2, 3, 4 },
+                { 0, 2, 3, 5 },
+                { 0, 1, 3, 6 },
+                { 0, 1, 2, 7 },
+                { 5, 6, 7, 0 },
+                { 4, 6, 7, 1 },
+                { 4, 5, 7, 2 },
+                { 4, 5, 6, 3 },
+            };
+
+            auto forbidden { ForbiddenColors(k4xk4.size()) };
+            auto coloring  { Coloring(k4xk4.size()) };
+
+            auto maxColor { computeVertexColoring(k4xk4, forbidden, coloring) };
+
+            CHECK(maxColor == 3);
+            CHECK(isProperVertexColoring(coloring, k4xk4));
         }
 
     }
