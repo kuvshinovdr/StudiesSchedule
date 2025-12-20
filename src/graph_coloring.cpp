@@ -34,7 +34,7 @@ namespace studies_schedule
     auto listConflicts(
         AdjacencyList   const& graph,
         ForbiddenColors const& forbiddenColors,
-        Coloring& vertexColoring
+        Coloring        const& vertexColoring
     ) -> Conflicts
     {
         Conflicts conflicts;
@@ -56,7 +56,7 @@ namespace studies_schedule
                 neighborsSet.insert(forbiddenColors[vertex].begin(), forbiddenColors[vertex].end());
                 Index newColor = *neighborsSet.rbegin() + 1;
 
-                for (Index color = 1; color < newColor - 1; ++color)
+                for (Index color = 0; color < newColor - 1; ++color)
                 {
                     if (auto search = neighborsSet.find(color); search == neighborsSet.end())
                     {
@@ -65,13 +65,13 @@ namespace studies_schedule
                     }
                 }
 
-                std::vector<Index> conflict = { conflictRank, newColor, vertex };
+                ConflictData conflict = { conflictRank, newColor, vertex };
                 conflicts.push_back(conflict);
             }
         }
         std::sort(conflicts.begin(), conflicts.end(),
             [](auto const& a, auto const& b) {
-                return a[0] > b[0];
+                return a.rank > b.rank;
             });
         return conflicts;
     }
@@ -83,11 +83,9 @@ namespace studies_schedule
     ) -> Color
     {
         Color maxColor = 0;
-        int i = 0;
 
-        while (i <= 100)
+        while (true)
         {
-            i++;
             auto conflicts = listConflicts(graph, forbiddenColors, vertexColoring);
             if (conflicts.empty())
             {
@@ -99,12 +97,12 @@ namespace studies_schedule
             std::set<Index> closed{};
             for (auto v : conflicts)
             {
-                auto u = v[2];
+                auto u = v.vertex;
                 if (closed.find(u) != closed.end())
                 {
                     continue;
                 }
-                vertexColoring[u] = v[1];
+                vertexColoring[u] = v.color;
                 for (auto ng : graph[u])
                 {
                     closed.insert(ng);
