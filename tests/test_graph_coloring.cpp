@@ -95,20 +95,21 @@ TEST_SUITE("graph coloring")
         }
         
         SUBCASE("Complete graph K4") {
-            AdjacencyList k4 = {
+            auto k4 = AdjacencyList
+            {
                 {1, 2, 3},
                 {0, 2, 3},
                 {0, 1, 3},
-                {0, 1, 2}
+                {0, 1, 2},
             };
             
-            Coloring proper4Colors = {0, 1, 2, 3};
+            auto proper4Colors { Coloring{0, 1, 2, 3} };
             CHECK(isProperVertexColoring(proper4Colors, k4) == true);
             
-            Coloring improper = {0, 1, 2, 2};  
+            auto improper { Coloring{0, 1, 2, 2} };
             CHECK(isProperVertexColoring(improper, k4) == false);
             
-            Coloring wrongSize = {0, 1, 2};
+            auto wrongSize { Coloring{0, 1, 2} };
             CHECK(isProperVertexColoring(wrongSize, k4) == false);
         }
     }
@@ -122,16 +123,20 @@ TEST_SUITE("graph coloring")
     {
         SUBCASE("proper coloring  1")
         {
-            AdjacencyList graph = {{1, 2},
-                                   {0, 2},
-                                   {0, 1, 3, 6},
-                                   {2, 4, 5},
-                                   {3, 5, 6},
-                                   {3, 4},
-                                   {2, 4}};
-            ForbiddenColors forbidden(graph.size());
-            Coloring startColoring = { 1, 2, 1, 2, 1, 2, 2 };
-            Color maxColor = computeVertexColoring(graph, forbidden, startColoring);
+            auto graph = AdjacencyList
+            {
+                {1, 2},
+                {0, 2},
+                {0, 1, 3, 6},
+                {2, 4, 5},
+                {3, 5, 6},
+                {3, 4},
+                {2, 4}
+            };
+
+            auto forbidden     { ForbiddenColors(graph.size()) };
+            auto startColoring { Coloring{1, 2, 1, 2, 1, 2, 2} };
+            auto maxColor      { computeVertexColoring(graph, forbidden, startColoring) };
             
             CHECK(maxColor == 2);
             CHECK(isProperVertexColoring(startColoring, graph) == true);
@@ -139,47 +144,48 @@ TEST_SUITE("graph coloring")
 
         SUBCASE("proper coloring 2")
         {
-            AdjacencyList graph2 = {{1, 3},
-                                    {0, 2},
-                                    {1, 3},
-                                    {0, 2}};
+            auto graph = AdjacencyList 
+            {
+                {1, 3},
+                {0, 2},
+                {1, 3},
+                {0, 2},
+            };
 
-            ForbiddenColors forbidden2(4);
-            Coloring startColoring = { 1, 1, 1, 1 };
-
-            Color maxColor = computeVertexColoring(graph2, forbidden2, startColoring);
+            auto forbidden     { ForbiddenColors(graph.size()) };
+            auto startColoring { Coloring{ 1, 1, 1, 1 } };
+            auto maxColor      { computeVertexColoring(graph, forbidden, startColoring) };
 
             CHECK(maxColor <= 2);
-            CHECK(isProperVertexColoring(startColoring, graph2) == true);
+            CHECK(isProperVertexColoring(startColoring, graph) == true);
         }
 
         SUBCASE("respects forbidden colors")
         {
-            AdjacencyList graph3 = {{1, 2},
-                                    {0, 2},
-                                    {0, 1}};
+            auto graph = AdjacencyList
+            {
+                {1, 2},
+                {0, 2},
+                {0, 1},
+            };
 
-            ForbiddenColors forbidden(3);
-            forbidden[0] = {1};
-            forbidden[1] = {2};
-            forbidden[2] = {3};
-
-            Coloring startColoring = { 2, 3, 1 }; 
-            Color maxColor = computeVertexColoring(graph3, forbidden, startColoring);
+            auto forbidden     { ForbiddenColors{{1}, {2}, {3}} };
+            auto startColoring { Coloring{ 2, 3, 1 } };
+            auto maxColor      { computeVertexColoring(graph, forbidden, startColoring) };
 
             CHECK(startColoring[0] != 1);
             CHECK(startColoring[1] != 2);
             CHECK(startColoring[2] != 3);
-            CHECK(isProperVertexColoring(startColoring, graph3) == true);
+            CHECK(isProperVertexColoring(startColoring, graph) == true);
         }
 
         SUBCASE("empty graph")
         {
-            AdjacencyList empty = {};
-            ForbiddenColors forbiddenEmpty(0);
-            Coloring coloring = {};
+            auto empty          { AdjacencyList{} };
+            auto forbiddenEmpty { ForbiddenColors{} };
+            auto coloring       { Coloring{} };
 
-            Color maxColor = computeVertexColoring(empty, forbiddenEmpty, coloring);
+            auto maxColor { computeVertexColoring(empty, forbiddenEmpty, coloring) };
 
             CHECK(maxColor == 0);
             CHECK(coloring.empty());
@@ -187,11 +193,11 @@ TEST_SUITE("graph coloring")
 
         SUBCASE("single vertex")
         {
-            AdjacencyList single = { {} };
-            ForbiddenColors forbiddenSingle(1);
-            Coloring coloring = { 1 };
+            auto single          { AdjacencyList{{}} };
+            auto forbiddenSingle { ForbiddenColors{{}} };
+            auto coloring        { Coloring{1} };
 
-            Color maxColor = computeVertexColoring(single, forbiddenSingle, coloring);
+            auto maxColor { computeVertexColoring(single, forbiddenSingle, coloring) };
 
             CHECK(maxColor == 1);
             CHECK(coloring[0] == 1);
