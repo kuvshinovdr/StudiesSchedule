@@ -140,27 +140,21 @@ namespace studies_schedule
             return 0;
         }
 
+        auto closed         { std::vector<bool>{} };
         auto neighborColors { Coloring{}  };
+        auto conflicts      { Conflicts{} };
+        
         neighborColors.reserve(32);
-
-        auto conflicts { Conflicts{} };
         conflicts.reserve(graph.size());
-
-        auto closed { std::vector<bool>{} };
 
         while (listConflicts(graph, forbiddenColors, vertexColoring, neighborColors, conflicts)) {
             closed.assign(graph.size(), false);
-            
             for (auto conflict : conflicts) {
-                auto const u { conflict.vertex };
-                if (closed[u]) {
-                    continue;
-                }
-
-                vertexColoring[u] = conflict.color;
-
-                for (auto neighbor : graph[u]) {
-                    closed[neighbor] = true;
+                if (auto const u { conflict.vertex }; !closed[u]) {
+                    vertexColoring[u] = conflict.color;
+                    for (auto neighbor : graph[u]) {
+                        closed[neighbor] = true;
+                    }
                 }
             }
         }
