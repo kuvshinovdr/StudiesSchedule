@@ -5,7 +5,6 @@
 #include <functional>
 #include <algorithm>
 #include <ranges>
-#include <set>
 
 namespace studies_schedule
 {
@@ -63,39 +62,40 @@ namespace studies_schedule
         return {};
     }
 
-    auto listConflicts(
+    bool listConflicts(
             AdjacencyList   const& graph,
             ForbiddenColors const& forbiddenColors,
-            Coloring        const& vertexColoring
-        ) -> Conflicts
+            Coloring        const& vertexColoring,
+            Coloring&              neighborColors,
+            Conflicts&             conflicts
+        )
     {
-        auto conflicts { Conflicts{} };
-        
-        for (auto vertex = 0zu; vertex < graph.size(); ++vertex) {
-            auto neighborsColors { Coloring{} };
-            
-            for (auto neighbor : graph[vertex]) {
-                neighborsColors.push_back(vertexColoring[neighbor]);
-            }
+        conflicts.clear();
 
-            auto const conflictRank { std::ranges::count(neighborsColors, vertexColoring[vertex]) };
+        for (auto vertex = 0zu; vertex < graph.size(); ++vertex) {
+            neighborColors.assign_range(
+                std::views::transform(graph[vertex], mapArray(vertexColoring)));
+            
+            auto const conflictRank 
+            { 
+                std::ranges::count(neighborColors, vertexColoring[vertex])
+            };
             
             if (conflictRank == 0) {
                 continue;
             }
 
-            auto neighborsSet { std::set(std::from_range, neighborsColors) };
-
-            neighborsSet.insert_range(forbiddenColors[vertex]);
+            neighborColors.insert_range(neighborColors.end(), forbiddenColors[vertex]);
             
-            auto newColor { *neighborsSet.rbegin() + 1 };
+            std::ranges::sort(neighborColors);
+            neighborColors.erase(
+                std::unique(neighborColors.begin(), neighborColors.end()), 
+                neighborColors.end());
 
-            for (VertexIndex color = 0; color < newColor - 1; ++color) {
-                if (!neighborsSet.contains(color)) {
-                    newColor = color;
-                    break;    
-                }
-            }
+            auto const newColor
+            { 
+                *std::ranges::mismatch(std::views::iota(Color{}), neighborColors).in1
+            };
 
             conflicts.emplace_back(ConflictData
                 { 
@@ -106,10 +106,23 @@ namespace studies_schedule
         }
 
         std::ranges::sort(conflicts,
-            [](auto const& a, auto const& b) {
+            [](auto const& a, auto const& b)
+            {
                 return a.rank > b.rank;
             });
 
+        return !conflicts.empty();
+    }
+
+    auto listConflicts(
+            AdjacencyList   const& graph,
+            ForbiddenColors const& forbiddenColors,
+            Coloring        const& vertexColoring
+        ) -> Conflicts
+    {
+        auto neighborColors { Coloring{}  };
+        auto conflicts      { Conflicts{} };
+        listConflicts(graph, forbiddenColors, vertexColoring, neighborColors, conflicts);
         return conflicts;
     }
 
@@ -127,28 +140,31 @@ namespace studies_schedule
             return 0;
         }
 
-        for (auto maxColor = std::ranges::max(vertexColoring);;) {
-            auto conflicts { listConflicts(graph, forbiddenColors, vertexColoring) };
-            
-            if (conflicts.empty()) {
-                return maxColor;
-            }
+        auto neighborColors { Coloring{}  };
+        neighborColors.reserve(32);
 
-            auto closed { std::set<VertexIndex>{} };
+        auto conflicts { Conflicts{} };
+        conflicts.reserve(graph.size());
+
+        auto closed { std::vector<bool>{} };
+
+        while (listConflicts(graph, forbiddenColors, vertexColoring, neighborColors, conflicts)) {
+            closed.assign(graph.size(), false);
             
             for (auto conflict : conflicts) {
                 auto const u { conflict.vertex };
-                if (closed.contains(u)) {
+                if (closed[u]) {
                     continue;
                 }
 
                 vertexColoring[u] = conflict.color;
-                maxColor = std::max(conflict.color, maxColor);
 
                 for (auto neighbor : graph[u]) {
-                    closed.insert(neighbor);
+                    closed[neighbor] = true;
                 }
             }
         }
+
+        return std::ranges::max(vertexColoring);
     }
 }
