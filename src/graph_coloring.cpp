@@ -13,11 +13,26 @@ namespace studies_schedule
 
     bool colorsAreValid(Coloring const& coloring, ForbiddenColors const& forbiddenColors)
     {
-        // Coloring - вектор цветов по вершинам, ForbiddenColors - вектор векторов запрещенных цветов для i-ой вершины.
-         using namespace std;
+        // coloring - вектор цветов по вершинам, forbiddenColors - вектор векторов запрещенных цветов для i-ой вершины.
+        using namespace std;
         
-        // TODO
+        if (coloring.size() != forbiddenColors.size()) 
         return false;
+        
+        if (coloring.empty()) 
+        return true;
+        
+        for (size_t i = 0; i < coloring.size(); ++i) 
+        {
+            Color color = coloring[i]; // как я понял тип данных int_32
+            for (size_t j = 0; j < forbiddenColors[i].size(); ++j) 
+            {
+                if (color == forbiddenColors[i][j]) 
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     bool isProperVertexColoring(Coloring const& coloring, AdjacencyList const& graph)
