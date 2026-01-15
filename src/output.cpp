@@ -12,12 +12,13 @@ namespace studies_schedule
     {
 
         auto const& timeSlot = task.get<TimeSlots>()[assignment.timeSlot];
+        String timeSlotStr = timeSlot.dayOfWeek + " " + timeSlot.daySlot;
         auto const& room = task.get<Rooms>()[assignment.room];
         auto const& group = task.get<Groups>()[assignment.group];
         auto const& instructor = task.get<Instructors>()[assignment.instructor];
         auto const& subject = task.get<Subjects>()[assignment.subject];
-        return delimitedQuotedConcat(", ", timeSlot, room, group, instructor, subject);
-    };
+
+        return delimitedQuotedConcat(", ", timeSlotStr, room, group, instructor, subject);
     }
 
     auto writeAssignments(Assignments const& assignments, Task const& task, String const& filename)
@@ -29,7 +30,7 @@ namespace studies_schedule
         for (auto const& assignment : assignments) {
             Line.push_back(toCsvRow(assignment, task));
         }
-        
+
         String text;
 
         for (size_t i = 0; i < line.size(); ++i) {
