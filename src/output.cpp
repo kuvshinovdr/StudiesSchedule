@@ -40,7 +40,6 @@ namespace studies_schedule
         }
 
         return stringToFile(text, filename);
-        return {};
     }
 
     auto writeGroupSchedule(GroupSchedule const& schedule, Task const& task, String const& filename)
