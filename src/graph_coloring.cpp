@@ -13,7 +13,7 @@ namespace studies_schedule
 
     bool colorsAreValid(Coloring const& coloring, ForbiddenColors const& forbiddenColors)
     {
-        // Предположу, что Coloring и ForbiddenColors - map контейнеры
+        // Предположу, что Coloring - map контейнер
          using namespace std;
         
         // TODO
