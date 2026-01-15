@@ -15,10 +15,10 @@ TEST_SUITE("graph coloring")
     TEST_CASE("colorsAreValid")
     { 
         {
-            Coloring coloring         = {1, 3, 2, 4};
-            ForbiddenColors forbidden = {{2,4}, {1,2}, {4,3}, {1,2,3}};
+            Coloring coloring               = {1, 3, 2, 4};
+            ForbiddenColors forbiddencolors = {{2,4}, {1,2}, {4,3}, {1,2,3}};
             
-            bool result = colorsAreValid(coloring, forbidden);
+            bool result = colorsAreValid(coloring, forbiddencolors);
             
             if (result == true)
             std::cout << "Успех\n";
@@ -27,10 +27,10 @@ TEST_SUITE("graph coloring")
         }
         
         {
-            Coloring coloring         = {5, 6, 7, 8};
-            ForbiddenColors forbidden = {{6,7}, {7,8}, {6,8}, {6,7,8}};
+            Coloring coloring               = {5, 6, 7, 8};
+            ForbiddenColors forbiddencolors = {{6,7}, {7,8}, {6,8}, {6,7,8}};
             
-            bool result = colorsAreValid(coloring, forbidden);
+            bool result = colorsAreValid(coloring, forbiddencolors);
             
             if (result == false)
             std::cout << "Успех\n";
