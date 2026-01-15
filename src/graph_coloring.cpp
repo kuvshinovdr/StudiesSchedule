@@ -1,5 +1,6 @@
 ﻿/// @file  graph_coloring.cpp
 #include "graph_coloring.hpp"
+#include <algorithm>
 
 namespace studies_schedule
 {
@@ -12,6 +13,9 @@ namespace studies_schedule
 
     bool colorsAreValid(Coloring const& coloring, ForbiddenColors const& forbiddenColors)
     {
+        // Предположу, что Coloring и ForbiddenColors - map контейнеры
+         using namespace std;
+        
         // TODO
         return false;
     }
