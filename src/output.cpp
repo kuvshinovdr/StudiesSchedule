@@ -23,7 +23,23 @@ namespace studies_schedule
     auto writeAssignments(Assignments const& assignments, Task const& task, String const& filename)
         -> Expected<void>
     {
-        // TODO
+        Vector<String> lines;
+        lines.reserve(assignments.size());
+
+        for (auto const& assignment : assignments) {
+            Line.push_back(toCsvRow(assignment, task));
+        }
+        
+        String text;
+
+        for (size_t i = 0; i < line.size(); ++i) {
+            text += lines[i];
+            if (i != lines.size() - 1) {
+                text += "\n";
+            }
+        }
+
+        return stringToFile(text, filename);
         return {};
     }
 
