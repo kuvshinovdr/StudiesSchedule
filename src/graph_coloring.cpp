@@ -24,7 +24,7 @@ namespace studies_schedule
         
         for (size_t i = 0; i < coloring.size(); ++i) 
         {
-            Color color = coloring[i]; // как я понял тип данных int_32
+            Color color = coloring[i]; //тип данных int_32
             for (size_t j = 0; j < forbiddenColors[i].size(); ++j) 
             {
                 if (color == forbiddenColors[i][j]) 
