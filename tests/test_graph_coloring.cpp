@@ -22,6 +22,7 @@ TEST_SUITE("graph coloring")
             
             if (result == true)
             std::cout << "Успех\n";
+                
             else 
             std::cout << "ОШИБКА!ОШИБКА!ОШИБКА!\n";
         }
@@ -34,6 +35,7 @@ TEST_SUITE("graph coloring")
             
             if (result == false)
             std::cout << "Успех\n";
+                
             else 
             std::cout << "ОШИБКА!ОШИБКА!ОШИБКА!\n";
         }
