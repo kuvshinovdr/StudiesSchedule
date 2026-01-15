@@ -13,6 +13,7 @@ namespace studies_schedule
 
     bool colorsAreValid(Coloring const& coloring, ForbiddenColors const& forbiddenColors)
     {
+        // Coloring - вектор цветов по вершинам, ForbiddenColors - вектор векторов запрещенных цветов для i-ой вершины.
          using namespace std;
         
         // TODO
