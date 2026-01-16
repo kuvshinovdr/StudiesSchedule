@@ -35,50 +35,97 @@ namespace studies_schedule
     auto readInstructors(String const& filename)
         -> Expected<Instructors>
     {
-        // TODO
-        return Instructors{};
+        return readCsvData<Instructors>(filename, [](TableRow& row)
+            {
+                return !row.empty() ? Instructor { .id = std::move(row[0]), .name = std::move(row[1]) } : Instructor{};
+            });
     }
 
     auto readGroups(String const& filename)
         -> Expected<Groups>
     {
-        // TODO
-        return Groups{};
+ return readCsvData<Groups>(filename, [](TableRow& row)
+            {
+                return !row.empty() ? Group { .id = std::move(row[0]), .name = std::move(row[1]) } : Group{};
+            });
     }
 
     auto readSubjects(String const& filename)
         -> Expected<Subjects>
     {
-        // TODO
-        return Subjects{};
+       return readCsvData<Subjects>(filename, [](TableRow& row)
+            {
+                return !row.empty() ? Subject { .id = std::move(row[0]), .name = std::move(row[1]) } : Subject{};
+            });
     }
 
     auto readTimeSlots(String const& filename)
         -> Expected<TimeSlots>
     {
-        // TODO
-        return TimeSlots{};
+       return readCsvData<TimeSlots>(filename, [](TableRow& row)
+            {
+                return !row.empty() ? TimeSlot { .startTime = std::move(row[0]), .endTime = std::move(row[1]) } : TimeSlot{};
+            });
     }
 
     auto readForbiddenTimeSlots(String const& filename)
         -> Expected<ForbiddenTimeSlots>
     {
-        // TODO
-        return ForbiddenTimeSlots{};
+        return readCsvData<ForbiddenTimeSlots>(filename, [](TableRow& row)
+            {
+                return !row.empty() ? ForbiddenTimeSlot { .startTime = std::move(row[0]), .endTime = std::move(row[1]) } : ForbiddenTimeSlot{};
+            });
     }
 
     void setForbiddenFields(Task& task, ForbiddenTimeSlots const& forbiddenTimeSlots)
     {
-        // TODO
+            task.forbiddenTimeSlots = forbiddenTimeSlots;
     }
 
     auto readInput(Config const& config)
         -> Expected<Task>
     {
-        auto result { Task{} };
+               auto result { Task{} };
         
-        // TODO: использовать функции, данные выше
-        
+        auto instructorsResult = readInstructors(config.input + "/instructors.csv");
+        if (!instructorsResult) 
+        {
+            logError("Failed to read instructors: ", instructorsResult.error());
+            return instructorsResult;
+        }
+
+        auto groupsResult = readGroups(config.input + "/groups.csv");
+        if (!groupsResult) 
+        {
+            logError("Failed to read groups: ", groupsResult.error());
+            return groupsResult;
+        }
+
+        auto subjectsResult = readSubjects(config.input + "/subjects.csv");
+        if (!subjectsResult) 
+        {
+            logError("Failed to read subjects: ", subjectsResult.error());
+            return subjectsResult;
+        }
+
+        auto timeSlotsResult = readTimeSlots(config.input + "/timeslots.csv");
+        if (!timeSlotsResult) 
+        {
+            logError("Failed to read time slots: ", timeSlotsResult.error());
+            return timeSlotsResult;
+        }
+
+        auto forbiddenSlotsResult = readForbiddenTimeSlots(config.input + "/forbidden.csv");
+        if (!forbiddenSlotsResult) 
+        {
+            logError("Failed to read forbidden time slots: ", forbiddenSlotsResult.error());
+            return forbiddenSlotsResult;
+}
+        result.instructors = std::move(instructorsResult.value());
+        result.groups = std::move(groupsResult.value());
+        result.subjects = std::move(subjectsResult.value());
+        result.timeSlots = std::move(timeSlotsResult.value());
+        setForbiddenFields(result, std::move(forbiddenSlotsResult.value()));
         return result;
     }
 
