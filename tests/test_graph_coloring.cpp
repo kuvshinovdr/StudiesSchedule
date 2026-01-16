@@ -15,15 +15,15 @@ TEST_SUITE("graph coloring")
     TEST_CASE("colorsAreValid")
     { 
         {
-            Coloring coloring               = {1, 3, 2, 4};
-            ForbiddenColors forbiddenColors = {{2,4}, {1,2}, {4,3}, {1,2,3}};
+            auto coloring        { Coloring{1, 3, 2, 4} };
+            auto forbiddenColors { ForbiddenColors{{2,4}, {1,2}, {4,3}, {1,2,3}} };
             
             CHECK(colorsAreValid(coloring, forbiddenColors));
         }
         
         {
-            Coloring coloring               = {5, 6, 7, 8};
-            ForbiddenColors forbiddenColors = {{6,7}, {7,8}, {6,8}, {6,7,8}};
+            auto coloring        { Coloring{5, 6, 7, 8} };
+            auto forbiddenColors { ForbiddenColors{{6,7}, {7,8}, {6,8}, {6,7,8}} };
             
             CHECK(!colorsAreValid(coloring, forbiddenColors));
         }

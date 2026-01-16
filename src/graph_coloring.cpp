@@ -1,6 +1,7 @@
 ﻿/// @file  graph_coloring.cpp
 #include "graph_coloring.hpp"
 #include <algorithm>
+#include <ranges>
 
 namespace studies_schedule
 {
@@ -13,21 +14,13 @@ namespace studies_schedule
 
     bool colorsAreValid(Coloring const& coloring, ForbiddenColors const& forbiddenColors)
     {
-        // coloring - вектор цветов по вершинам, forbiddenColors - вектор векторов запрещенных цветов для i-ой вершины.
-        using namespace std;
+        // coloring - вектор цветов по вершинам, forbiddenColors - вектор векторов запрещенных цветов для i-ой вершины.       
+        if (coloring.size() != forbiddenColors.size()) {
+            return false;
+        }
         
-        if (coloring.size() != forbiddenColors.size()) 
-        return false;
-        
-        if (coloring.empty()) 
-        return true;
-        
-        for (size_t i = 0; i < coloring.size(); ++i) 
-        {
-            Color color = coloring[i]; //тип данных int_32
-            for (size_t j = 0; j < forbiddenColors[i].size(); ++j) 
-            {
-                if (color == forbiddenColors[i][j]) 
+        for (auto const& [forbidden, color]: std::views::zip(forbiddenColors, coloring)) {
+            if (std::ranges::contains(forbidden, color)) {
                 return false;
             }
         }
