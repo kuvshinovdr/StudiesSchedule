@@ -1,5 +1,7 @@
 ﻿/// @file  graph_coloring.cpp
 #include "graph_coloring.hpp"
+#include <algorithm>
+#include <ranges>
 
 #include <tuple>
 #include <functional>
@@ -17,8 +19,18 @@ namespace studies_schedule
 
     bool colorsAreValid(Coloring const& coloring, ForbiddenColors const& forbiddenColors)
     {
-        // TODO
-        return false;
+        // coloring - вектор цветов по вершинам, forbiddenColors - вектор векторов запрещенных цветов для i-ой вершины.       
+        if (coloring.size() != forbiddenColors.size()) {
+            return false;
+        }
+        
+        for (auto const& [forbidden, color]: std::views::zip(forbiddenColors, coloring)) {
+            if (std::ranges::contains(forbidden, color)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     // Чего-то подобного не хватает в стандартной библиотеке.
