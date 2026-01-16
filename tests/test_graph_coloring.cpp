@@ -18,26 +18,14 @@ TEST_SUITE("graph coloring")
             Coloring coloring               = {1, 3, 2, 4};
             ForbiddenColors forbiddenColors = {{2,4}, {1,2}, {4,3}, {1,2,3}};
             
-            bool result = colorsAreValid(coloring, forbiddenColors);
-            
-            if (result == true)
-            std::cout << "Успех\n";
-                
-            else 
-            std::cout << "ОШИБКА!ОШИБКА!ОШИБКА!\n";
+            CHECK(colorsAreValid(coloring, forbiddenColors));
         }
         
         {
             Coloring coloring               = {5, 6, 7, 8};
             ForbiddenColors forbiddenColors = {{6,7}, {7,8}, {6,8}, {6,7,8}};
             
-            bool result = colorsAreValid(coloring, forbiddenColors);
-            
-            if (result == false)
-            std::cout << "Успех\n";
-                
-            else 
-            std::cout << "ОШИБКА!ОШИБКА!ОШИБКА!\n";
+            CHECK(!colorsAreValid(coloring, forbiddenColors));
         }
     }
 
