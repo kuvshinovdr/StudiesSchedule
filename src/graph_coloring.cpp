@@ -13,7 +13,10 @@ namespace studies_schedule
 
     bool isAdjacencyListValid(AdjacencyList const& adjacencyList)
     {
-        // TODO
+        // Возможные проверки:
+        // 1. Отсутствие индексов за пределами размера массива.
+        // 2. Отсутствие петель и кратных рёбер (повторов индексов).
+        // 3. Неориентированность графа: если j принадлежит adjacencyList[i], то i принадлежит adjacencyList[j].
         return false;
     }
 
