@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <ranges>
 
+#include <limits>
 #include <tuple>
 #include <functional>
 #include <algorithm>
@@ -11,10 +12,67 @@
 namespace studies_schedule
 {
 
+    [[nodiscard]] static constexpr auto adaptPair(auto takesPair)
+    {
+        return [takesPair](auto&& pair)
+        {
+            auto&& [a, b] = pair;
+            return takesPair(a, b);
+        };
+    }
+
+    [[nodiscard]] static constexpr bool adjacencyHasIndicesOutOfRange(VertexIndex upperBound, Adjacency const& adj)
+    {
+        return std::ranges::any_of(adj, [upperBound](VertexIndex v) { return upperBound <= v || v < 0; });
+    }
+
+    [[nodiscard]] static constexpr bool adjacencyHasLoops(std::size_t inVertex, Adjacency const& adj)
+    {
+        return std::ranges::contains(adj, static_cast<VertexIndex>(inVertex));
+    }
+
+    [[nodiscard]] static bool adjacencyHasRepeats(Adjacency const& adj)
+    {
+        auto sortedCopy = adj;
+        std::ranges::sort(sortedCopy);
+        return std::ranges::adjacent_find(sortedCopy) != sortedCopy.end();
+    }
+
     bool isAdjacencyListValid(AdjacencyList const& adjacencyList)
     {
-        // TODO
-        return false;
+        // Возможные проверки:
+        // 0. Принципиальный размер списка.
+        if (static_cast<std::size_t>(std::numeric_limits<VertexIndex>::max()) < adjacencyList.size()) {
+            return false;
+        }
+
+        // 1. Отсутствие индексов за пределами размера массива.
+        if (std::ranges::any_of(adjacencyList,
+                                std::bind_front(adjacencyHasIndicesOutOfRange, static_cast<VertexIndex>(adjacencyList.size())))) {
+            return false;
+        }
+
+        // 2a. Отсутствие петель
+        if (std::ranges::any_of(std::views::enumerate(adjacencyList), adaptPair(adjacencyHasLoops))) {
+            return false;
+        }
+
+        // 2b. Отсутствие кратных рёбер (повторов индексов).
+        if (std::ranges::any_of(adjacencyList, adjacencyHasRepeats)) {
+            return false;
+        }
+
+        // 3. Неориентированность графа: если j принадлежит adjacencyList[i], то i принадлежит adjacencyList[j].
+        for (auto i = std::size_t{0}; i < adjacencyList.size(); ++i) {
+            auto const u = static_cast<VertexIndex>(i);
+            for (auto v: adjacencyList[i]) {
+                if (!std::ranges::contains(adjacencyList[v], u)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     bool colorsAreValid(Coloring const& coloring, ForbiddenColors const& forbiddenColors)

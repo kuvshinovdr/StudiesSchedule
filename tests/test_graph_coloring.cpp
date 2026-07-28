@@ -9,7 +9,51 @@ TEST_SUITE("graph coloring")
 
     TEST_CASE("isAdjacencyListValid")
     {
-        // TODO
+        using namespace studies_schedule;
+
+        SUBCASE("invalid vertex index") {
+            auto bad1 = AdjacencyList { Adjacency{-1} };
+            CHECK(isAdjacencyListValid(bad1) == false);
+
+            auto bad2 = AdjacencyList { Adjacency{1} };
+            CHECK(isAdjacencyListValid(bad2) == false);
+
+            auto bad3 = AdjacencyList { Adjacency{1}, Adjacency{0, 2} };
+            CHECK(isAdjacencyListValid(bad3) == false);
+        }
+
+        SUBCASE("loops") {
+            auto bad1 = AdjacencyList { Adjacency{0} };
+            CHECK(isAdjacencyListValid(bad1) == false);
+
+            auto bad2 = AdjacencyList { Adjacency{1}, Adjacency{0, 1} };
+            CHECK(isAdjacencyListValid(bad2) == false);
+        }
+
+        SUBCASE("multiedges") {
+            auto bad1 = AdjacencyList { Adjacency{1, 2, 3}, Adjacency{0, 3, 2, 3}, Adjacency{0, 1}, Adjacency{0, 1} };
+            CHECK(isAdjacencyListValid(bad1) == false);
+
+            auto bad2 = AdjacencyList { Adjacency{3}, Adjacency{3}, Adjacency{3}, Adjacency{0, 2, 1, 2} };
+            CHECK(isAdjacencyListValid(bad2) == false);
+        }
+
+        SUBCASE("directed graph") {
+            auto bad1 = AdjacencyList { Adjacency{1, 2}, Adjacency{0}, Adjacency{0, 1} };
+            CHECK(isAdjacencyListValid(bad1) == false);
+
+            auto bad2 = AdjacencyList { Adjacency{1, 2, 3}, Adjacency{0, 2}, Adjacency{0, 1, 3}, Adjacency{2} };
+            CHECK(isAdjacencyListValid(bad2) == false);
+        }
+
+        SUBCASE("normals") {
+            auto good1 = AdjacencyList { Adjacency{1, 2}, Adjacency{0, 2}, Adjacency{0, 1} };
+            CHECK(isAdjacencyListValid(good1) == true);
+
+            auto good2 = AdjacencyList { Adjacency{1, 2, 3}, Adjacency{0, 2}, Adjacency{0, 1, 3}, Adjacency{0, 2} };
+            CHECK(isAdjacencyListValid(good2) == true);
+        }
+
     }
 
     TEST_CASE("colorsAreValid")
