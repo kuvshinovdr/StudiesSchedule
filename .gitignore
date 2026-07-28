@@ -48,3 +48,6 @@ Release/
 # Meson
 .wraplock
 
+# Qt Creator
+.qtcreator/
+build/
