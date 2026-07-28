@@ -66,7 +66,7 @@ namespace studies_schedule
         for (auto i = std::size_t{0}; i < adjacencyList.size(); ++i) {
             auto const u = static_cast<VertexIndex>(i);
             for (auto v: adjacencyList[i]) {
-                if (u < v && !std::ranges::contains(adjacencyList[v], u)) {
+                if (!std::ranges::contains(adjacencyList[v], u)) {
                     return false;
                 }
             }
